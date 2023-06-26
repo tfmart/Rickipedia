@@ -8,7 +8,6 @@
 import Foundation
 
 class FilterCharactersService: Service {
-    typealias ResponseType = QueryResponse
     var queries: [URLQueryItem]
     
     init(
