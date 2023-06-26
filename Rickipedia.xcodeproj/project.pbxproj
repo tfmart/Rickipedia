@@ -12,7 +12,7 @@
 		7C384F072A49CDB2006A7327 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F062A49CDB2006A7327 /* ViewController.swift */; };
 		7C384F0C2A49CDB4006A7327 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C384F0B2A49CDB4006A7327 /* Assets.xcassets */; };
 		7C384F0F2A49CDB4006A7327 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C384F0D2A49CDB4006A7327 /* LaunchScreen.storyboard */; };
-		7C384F1A2A49CDB4006A7327 /* RickipediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F192A49CDB4006A7327 /* RickipediaTests.swift */; };
+		7C384F1A2A49CDB4006A7327 /* CharacterListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F192A49CDB4006A7327 /* CharacterListViewModelTests.swift */; };
 		7C384F242A49CDB4006A7327 /* RickipediaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F232A49CDB4006A7327 /* RickipediaUITests.swift */; };
 		7C384F262A49CDB4006A7327 /* RickipediaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F252A49CDB4006A7327 /* RickipediaUITestsLaunchTests.swift */; };
 		7C384F342A49D57B006A7327 /* NetworkingConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F332A49D57B006A7327 /* NetworkingConstant.swift */; };
@@ -28,6 +28,9 @@
 		7C384F4C2A49E9C9006A7327 /* AllCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F4B2A49E9C9006A7327 /* AllCharactersService.swift */; };
 		7C384F4E2A49EA76006A7327 /* FilterCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F4D2A49EA76006A7327 /* FilterCharactersService.swift */; };
 		7C384F502A49EB05006A7327 /* NetworkingParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F4F2A49EB05006A7327 /* NetworkingParameter.swift */; };
+		7C384F522A49ED7D006A7327 /* CharacterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */; };
+		7CDC7CF22A4A298100A28C47 /* allCharactersMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */; };
+		7CDC7CF62A4A2BD700A28C47 /* MockAllCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF52A4A2BD700A28C47 /* MockAllCharactersService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +59,7 @@
 		7C384F0E2A49CDB4006A7327 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C384F102A49CDB4006A7327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C384F152A49CDB4006A7327 /* RickipediaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickipediaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C384F192A49CDB4006A7327 /* RickipediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickipediaTests.swift; sourceTree = "<group>"; };
+		7C384F192A49CDB4006A7327 /* CharacterListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewModelTests.swift; sourceTree = "<group>"; };
 		7C384F1F2A49CDB4006A7327 /* RickipediaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickipediaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C384F232A49CDB4006A7327 /* RickipediaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickipediaUITests.swift; sourceTree = "<group>"; };
 		7C384F252A49CDB4006A7327 /* RickipediaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickipediaUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -73,6 +76,9 @@
 		7C384F4B2A49E9C9006A7327 /* AllCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCharactersService.swift; sourceTree = "<group>"; };
 		7C384F4D2A49EA76006A7327 /* FilterCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCharactersService.swift; sourceTree = "<group>"; };
 		7C384F4F2A49EB05006A7327 /* NetworkingParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingParameter.swift; sourceTree = "<group>"; };
+		7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewModel.swift; sourceTree = "<group>"; };
+		7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = allCharactersMock.json; sourceTree = "<group>"; };
+		7CDC7CF52A4A2BD700A28C47 /* MockAllCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAllCharactersService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +143,8 @@
 		7C384F182A49CDB4006A7327 /* RickipediaTests */ = {
 			isa = PBXGroup;
 			children = (
-				7C384F192A49CDB4006A7327 /* RickipediaTests.swift */,
+				7CDC7CF32A4A2B8700A28C47 /* Sources */,
+				7CDC7CF02A4A295F00A28C47 /* Resources */,
 			);
 			path = RickipediaTests;
 			sourceTree = "<group>";
@@ -158,6 +165,7 @@
 				7C384F352A49D881006A7327 /* Model */,
 				7C384F332A49D57B006A7327 /* NetworkingConstant.swift */,
 				7C384F422A49DE76006A7327 /* Service.swift */,
+				7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -197,10 +205,51 @@
 		7C384F4A2A49E9B8006A7327 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7C384F4B2A49E9C9006A7327 /* AllCharactersService.swift */,
-				7C384F4D2A49EA76006A7327 /* FilterCharactersService.swift */,
+				7CDC7CEF2A49EF6A00A28C47 /* FilterCharacters */,
+				7CDC7CEE2A49EF5D00A28C47 /* AllCharacters */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		7CDC7CEE2A49EF5D00A28C47 /* AllCharacters */ = {
+			isa = PBXGroup;
+			children = (
+				7C384F4B2A49E9C9006A7327 /* AllCharactersService.swift */,
+			);
+			path = AllCharacters;
+			sourceTree = "<group>";
+		};
+		7CDC7CEF2A49EF6A00A28C47 /* FilterCharacters */ = {
+			isa = PBXGroup;
+			children = (
+				7C384F4D2A49EA76006A7327 /* FilterCharactersService.swift */,
+			);
+			path = FilterCharacters;
+			sourceTree = "<group>";
+		};
+		7CDC7CF02A4A295F00A28C47 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7CDC7CF32A4A2B8700A28C47 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				7CDC7CF42A4A2B8E00A28C47 /* Helpers */,
+				7C384F192A49CDB4006A7327 /* CharacterListViewModelTests.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		7CDC7CF42A4A2B8E00A28C47 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				7CDC7CF52A4A2BD700A28C47 /* MockAllCharactersService.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,6 +365,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CDC7CF22A4A298100A28C47 /* allCharactersMock.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +396,7 @@
 				7C384F392A49D8DD006A7327 /* Character.swift in Sources */,
 				7C384F032A49CDB2006A7327 /* AppDelegate.swift in Sources */,
 				7C384F432A49DE76006A7327 /* Service.swift in Sources */,
+				7C384F522A49ED7D006A7327 /* CharacterListViewModel.swift in Sources */,
 				7C384F052A49CDB2006A7327 /* SceneDelegate.swift in Sources */,
 				7C384F452A49E0A8006A7327 /* NetworkingError.swift in Sources */,
 				7C384F3B2A49D8F9006A7327 /* Gender.swift in Sources */,
@@ -356,7 +407,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C384F1A2A49CDB4006A7327 /* RickipediaTests.swift in Sources */,
+				7C384F1A2A49CDB4006A7327 /* CharacterListViewModelTests.swift in Sources */,
+				7CDC7CF62A4A2BD700A28C47 /* MockAllCharactersService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
