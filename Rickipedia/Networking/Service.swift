@@ -8,8 +8,6 @@
 import Foundation
 
 protocol Service {
-    associatedtype ResponseType: Decodable
-    
     var queries: [URLQueryItem] { get set }
 }
 
@@ -20,7 +18,7 @@ extension Service {
         return urlComponents?.url
     }
     
-    func start() async throws -> ResponseType {
+    func start() async throws -> QueryResponse {
         guard let url else {
             throw NetworkingError.badURL
         }
@@ -29,12 +27,15 @@ extension Service {
         return try await parse(data)
     }
     
-    func parse(_ data: Data) async throws -> ResponseType {
+    func parse(_ data: Data) async throws -> QueryResponse {
         do {
-            return try JSONDecoder().decode(ResponseType.self, from: data)
-        } catch {
-            let error = try JSONDecoder().decode(ErrorMessage.self, from: data)
-            throw NetworkingError.serviceError(error.error)
+            return try JSONDecoder().decode(QueryResponse.self, from: data)
+        } catch let error {
+            if let serviceError = try? JSONDecoder().decode(ErrorMessage.self, from: data) {
+                throw NetworkingError.serviceError(serviceError.error)
+            } else {
+                throw error
+            }
         }
     }
 }

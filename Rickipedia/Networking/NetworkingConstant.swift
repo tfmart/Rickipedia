@@ -9,5 +9,5 @@ import Foundation
 
 enum NetworkingConstant {
     static let baseURL = "https://rickandmortyapi.com/api"
-    static let characters = "characters"
+    static let characters = "character"
 }
