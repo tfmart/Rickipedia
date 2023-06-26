@@ -15,7 +15,7 @@ protocol Service {
 
 extension Service {
     var url: URL? {
-        var urlComponents = URLComponents(string: "\(NetworkingConstants.baseURL)/\(NetworkingConstants.characters)")
+        var urlComponents = URLComponents(string: "\(NetworkingConstant.baseURL)/\(NetworkingConstant.characters)")
         urlComponents?.queryItems = queries
         return urlComponents?.url
     }
@@ -24,7 +24,7 @@ extension Service {
         guard let url else {
             throw NetworkingError.badURL
         }
-        var request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
         let (data, _) = try await URLSession.shared.data(for: request)
         return try await parse(data)
     }
