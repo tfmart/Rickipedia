@@ -22,6 +22,9 @@
 		7C384F3D2A49D941006A7327 /* CharacterStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F3C2A49D941006A7327 /* CharacterStatus.swift */; };
 		7C384F3F2A49DA6E006A7327 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F3E2A49DA6E006A7327 /* Location.swift */; };
 		7C384F412A49DAA9006A7327 /* QueryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F402A49DAA9006A7327 /* QueryResponse.swift */; };
+		7C384F432A49DE76006A7327 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F422A49DE76006A7327 /* Service.swift */; };
+		7C384F452A49E0A8006A7327 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F442A49E0A8006A7327 /* NetworkingError.swift */; };
+		7C384F492A49E8EB006A7327 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F482A49E8EB006A7327 /* ErrorMessage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 		7C384F3C2A49D941006A7327 /* CharacterStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStatus.swift; sourceTree = "<group>"; };
 		7C384F3E2A49DA6E006A7327 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		7C384F402A49DAA9006A7327 /* QueryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryResponse.swift; sourceTree = "<group>"; };
+		7C384F422A49DE76006A7327 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		7C384F442A49E0A8006A7327 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
+		7C384F482A49E8EB006A7327 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +150,7 @@
 			children = (
 				7C384F352A49D881006A7327 /* Model */,
 				7C384F332A49D57B006A7327 /* NetworkingConstants.swift */,
+				7C384F422A49DE76006A7327 /* Service.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -151,14 +158,32 @@
 		7C384F352A49D881006A7327 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7C384F472A49E2D8006A7327 /* Error */,
+				7C384F462A49E2C1006A7327 /* Character */,
 				7C384F362A49D897006A7327 /* QueryInfo.swift */,
+				7C384F402A49DAA9006A7327 /* QueryResponse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7C384F462A49E2C1006A7327 /* Character */ = {
+			isa = PBXGroup;
+			children = (
 				7C384F382A49D8DD006A7327 /* Character.swift */,
 				7C384F3A2A49D8F9006A7327 /* Gender.swift */,
 				7C384F3C2A49D941006A7327 /* CharacterStatus.swift */,
 				7C384F3E2A49DA6E006A7327 /* Location.swift */,
-				7C384F402A49DAA9006A7327 /* QueryResponse.swift */,
 			);
-			path = Model;
+			path = Character;
+			sourceTree = "<group>";
+		};
+		7C384F472A49E2D8006A7327 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				7C384F442A49E0A8006A7327 /* NetworkingError.swift */,
+				7C384F482A49E8EB006A7327 /* ErrorMessage.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,9 +322,12 @@
 				7C384F372A49D897006A7327 /* QueryInfo.swift in Sources */,
 				7C384F342A49D57B006A7327 /* NetworkingConstants.swift in Sources */,
 				7C384F3F2A49DA6E006A7327 /* Location.swift in Sources */,
+				7C384F492A49E8EB006A7327 /* ErrorMessage.swift in Sources */,
 				7C384F392A49D8DD006A7327 /* Character.swift in Sources */,
 				7C384F032A49CDB2006A7327 /* AppDelegate.swift in Sources */,
+				7C384F432A49DE76006A7327 /* Service.swift in Sources */,
 				7C384F052A49CDB2006A7327 /* SceneDelegate.swift in Sources */,
+				7C384F452A49E0A8006A7327 /* NetworkingError.swift in Sources */,
 				7C384F3B2A49D8F9006A7327 /* Gender.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,6 +504,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -503,6 +532,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
