@@ -16,6 +16,7 @@ final class CharactersListViewModel {
     
     var isLoading: Bool = false
     var hasNextPage: Bool = true
+    var currentStateFilter: CharacterStatus? = nil
     
     var characters: [Character] {
         return filteredCharacters.isEmpty ? allCharacters : filteredCharacters
@@ -54,6 +55,9 @@ final class CharactersListViewModel {
                 }
                 self.allCharacters.append(contentsOf: response.results)
                 self.currentPage += 1
+                if let currentStateFilter {
+                    filterCharactersByStatus(currentStateFilter)
+                }
             } catch {
                 // Handle error
                 self.isLoading = false
@@ -69,11 +73,17 @@ final class CharactersListViewModel {
         }
     }
     
-    func filterCharactersByStatus(_ status: String) {
-        if status.isEmpty {
+    func filterCharactersByStatus(_ status: CharacterStatus?) {
+        guard currentStateFilter != status else {
+            currentStateFilter = nil
             filteredCharacters = allCharacters
-        } else {
-            filteredCharacters = allCharacters.filter { $0.status.rawValue.lowercased() == status.lowercased() }
+            return
         }
+        currentStateFilter = status
+        guard let status else {
+            filteredCharacters = allCharacters
+            return
+        }
+        filteredCharacters = allCharacters.filter { $0.status == status }
     }
 }

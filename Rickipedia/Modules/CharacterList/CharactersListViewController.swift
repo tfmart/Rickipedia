@@ -23,6 +23,8 @@ class CharactersListViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         setupCollectionView()
+        let menu = setupFilterButton()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"), menu: menu)
     }
     
     required init?(coder: NSCoder) {
@@ -48,6 +50,35 @@ class CharactersListViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func setupFilterButton() -> UIMenu {
+        let menuItems: [UIAction] = [
+            UIAction(title: "Alive",
+                     state: viewModel.currentStateFilter == .alive ? .on : .off,
+                     handler: { action in
+                         self.didApplyStatusFilter(.alive)
+                     }),
+            UIAction(title: "Dead",
+                     state: viewModel.currentStateFilter == .dead ? .on : .off,
+                     handler: { _ in
+                         self.didApplyStatusFilter(.dead)
+                     }),
+            UIAction(title: "Unknown",
+                     state: viewModel.currentStateFilter == .unknown ? .on : .off,
+                     handler: { _ in
+                         self.didApplyStatusFilter(.unknown)
+                     })
+        ]
+        
+        return UIMenu(title: "Status", children: menuItems)
+    }
+    
+    func didApplyStatusFilter(_ status: CharacterStatus) {
+        self.viewModel.filterCharactersByStatus(status)
+        let menu = self.setupFilterButton()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"), menu: menu)
+        self.collectionView.reloadData()
     }
 }
 
