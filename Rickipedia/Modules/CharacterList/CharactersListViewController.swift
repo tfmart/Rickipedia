@@ -73,6 +73,7 @@ extension CharactersListViewController: UICollectionViewDelegate {
         let lastItem = viewModel.characters.count - 1
         if indexPath.item == lastItem && viewModel.hasNextPage {
             viewModel.fetchCharacters()
+            collectionView.reloadData()
         }
     }
     

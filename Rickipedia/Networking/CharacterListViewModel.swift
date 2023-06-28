@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CharactersListViewModel {
+final class CharactersListViewModel {
     private let charactersService: AllCharactersServiceProtocol
     
     private var allCharacters: [Character] = []
@@ -56,6 +56,7 @@ class CharactersListViewModel {
                 self.currentPage += 1
             } catch {
                 // Handle error
+                self.isLoading = false
             }
         }
     }
