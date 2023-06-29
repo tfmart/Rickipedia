@@ -14,10 +14,14 @@ protocol CharactersListViewControllerDelegate: AnyObject {
 class CharactersListViewController: UIViewController {
     private let collectionView: UICollectionView
     private let viewModel: CharactersListViewModel
+    private let searchController = UISearchController(searchResultsController: nil)
+
     weak var delegate: CharactersListViewControllerDelegate?
     
     init(viewModel: CharactersListViewModel) {
         self.viewModel = viewModel
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.footerMode = .supplementary
         let layout = UICollectionViewCompositionalLayout.list(using: UICollectionLayoutListConfiguration(appearance: .plain))
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil)
@@ -42,6 +46,14 @@ class CharactersListViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: CharacterCell.reuseIdentifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Characters"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+
+        
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
@@ -55,16 +67,19 @@ class CharactersListViewController: UIViewController {
     private func setupFilterButton() -> UIMenu {
         let menuItems: [UIAction] = [
             UIAction(title: "Alive",
+                     image: UIImage(systemName: "person.2.fill"),
                      state: viewModel.currentStateFilter == .alive ? .on : .off,
                      handler: { action in
                          self.didApplyStatusFilter(.alive)
                      }),
             UIAction(title: "Dead",
+                     image: UIImage(systemName: "person.2.slash"),
                      state: viewModel.currentStateFilter == .dead ? .on : .off,
                      handler: { _ in
                          self.didApplyStatusFilter(.dead)
                      }),
             UIAction(title: "Unknown",
+                     image: UIImage(systemName: "questionmark.circle"),
                      state: viewModel.currentStateFilter == .unknown ? .on : .off,
                      handler: { _ in
                          self.didApplyStatusFilter(.unknown)
@@ -111,5 +126,13 @@ extension CharactersListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = viewModel.characters[indexPath.item]
         delegate?.didSelectCharacter(character)
+    }
+}
+
+extension CharactersListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        viewModel.filterCharactersByName(searchText)
+        collectionView.reloadData()
     }
 }

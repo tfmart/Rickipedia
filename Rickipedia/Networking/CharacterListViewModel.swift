@@ -67,7 +67,11 @@ final class CharactersListViewModel {
     
     func filterCharactersByName(_ name: String) {
         if name.isEmpty {
-            filteredCharacters = allCharacters
+            if currentStateFilter == nil {
+                filteredCharacters = allCharacters
+            }
+        } else if currentStateFilter != nil {
+            filteredCharacters = filteredCharacters.filter { $0.name.lowercased().contains(name.lowercased()) }
         } else {
             filteredCharacters = allCharacters.filter { $0.name.lowercased().contains(name.lowercased()) }
         }
