@@ -28,6 +28,12 @@
 		7C384F4E2A49EA76006A7327 /* FilterCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F4D2A49EA76006A7327 /* FilterCharactersService.swift */; };
 		7C384F502A49EB05006A7327 /* NetworkingParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F4F2A49EB05006A7327 /* NetworkingParameter.swift */; };
 		7C384F522A49ED7D006A7327 /* CharacterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */; };
+		7C759D602A4E183500F16419 /* CharacterDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D5F2A4E183500F16419 /* CharacterDetailsCoordinator.swift */; };
+		7C759D622A4E184D00F16419 /* CharacterDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D612A4E184D00F16419 /* CharacterDetailsViewModel.swift */; };
+		7C759D642A4E188A00F16419 /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D632A4E188A00F16419 /* CharacterDetailsViewController.swift */; };
+		7C759D662A4E18A000F16419 /* CharacterDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D652A4E18A000F16419 /* CharacterDetailsHeaderView.swift */; };
+		7C759D682A4E195300F16419 /* UIImage+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D672A4E195300F16419 /* UIImage+UIColor.swift */; };
+		7C759D6A2A4E1BA700F16419 /* CharacterDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D692A4E1BA700F16419 /* CharacterDetailCell.swift */; };
 		7CDC7CF22A4A298100A28C47 /* allCharactersMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */; };
 		7CDC7CF62A4A2BD700A28C47 /* MockAllCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF52A4A2BD700A28C47 /* MockAllCharactersService.swift */; };
 		7CE23FE72A4C958400E4D41B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE62A4C958400E4D41B /* Coordinator.swift */; };
@@ -79,6 +85,12 @@
 		7C384F4D2A49EA76006A7327 /* FilterCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCharactersService.swift; sourceTree = "<group>"; };
 		7C384F4F2A49EB05006A7327 /* NetworkingParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingParameter.swift; sourceTree = "<group>"; };
 		7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewModel.swift; sourceTree = "<group>"; };
+		7C759D5F2A4E183500F16419 /* CharacterDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsCoordinator.swift; sourceTree = "<group>"; };
+		7C759D612A4E184D00F16419 /* CharacterDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModel.swift; sourceTree = "<group>"; };
+		7C759D632A4E188A00F16419 /* CharacterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewController.swift; sourceTree = "<group>"; };
+		7C759D652A4E18A000F16419 /* CharacterDetailsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsHeaderView.swift; sourceTree = "<group>"; };
+		7C759D672A4E195300F16419 /* UIImage+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+UIColor.swift"; sourceTree = "<group>"; };
+		7C759D692A4E1BA700F16419 /* CharacterDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailCell.swift; sourceTree = "<group>"; };
 		7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = allCharactersMock.json; sourceTree = "<group>"; };
 		7CDC7CF52A4A2BD700A28C47 /* MockAllCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAllCharactersService.swift; sourceTree = "<group>"; };
 		7CE23FE62A4C958400E4D41B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -258,6 +270,11 @@
 		7CE23FE22A4C91E100E4D41B /* CharacterDetail */ = {
 			isa = PBXGroup;
 			children = (
+				7C759D5F2A4E183500F16419 /* CharacterDetailsCoordinator.swift */,
+				7C759D612A4E184D00F16419 /* CharacterDetailsViewModel.swift */,
+				7C759D632A4E188A00F16419 /* CharacterDetailsViewController.swift */,
+				7C759D652A4E18A000F16419 /* CharacterDetailsHeaderView.swift */,
+				7C759D692A4E1BA700F16419 /* CharacterDetailCell.swift */,
 			);
 			path = CharacterDetail;
 			sourceTree = "<group>";
@@ -281,6 +298,7 @@
 		7CE23FE52A4C926C00E4D41B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				7C759D672A4E195300F16419 /* UIImage+UIColor.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -416,6 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C759D6A2A4E1BA700F16419 /* CharacterDetailCell.swift in Sources */,
 				7CE23FEB2A4C965C00E4D41B /* CharactersListViewController.swift in Sources */,
 				7C384F502A49EB05006A7327 /* NetworkingParameter.swift in Sources */,
 				7C384F4E2A49EA76006A7327 /* FilterCharactersService.swift in Sources */,
@@ -428,13 +447,18 @@
 				7C384F3F2A49DA6E006A7327 /* Location.swift in Sources */,
 				7C384F492A49E8EB006A7327 /* ErrorMessage.swift in Sources */,
 				7C384F392A49D8DD006A7327 /* Character.swift in Sources */,
+				7C759D662A4E18A000F16419 /* CharacterDetailsHeaderView.swift in Sources */,
 				7C384F032A49CDB2006A7327 /* AppDelegate.swift in Sources */,
 				7C384F432A49DE76006A7327 /* Service.swift in Sources */,
+				7C759D682A4E195300F16419 /* UIImage+UIColor.swift in Sources */,
 				7C384F522A49ED7D006A7327 /* CharacterListViewModel.swift in Sources */,
 				7CE23FED2A4C9AA600E4D41B /* CharacterCell.swift in Sources */,
 				7C384F052A49CDB2006A7327 /* SceneDelegate.swift in Sources */,
 				7C384F452A49E0A8006A7327 /* NetworkingError.swift in Sources */,
 				7CE23FE92A4C95B700E4D41B /* CharactersListCoordinator.swift in Sources */,
+				7C759D622A4E184D00F16419 /* CharacterDetailsViewModel.swift in Sources */,
+				7C759D642A4E188A00F16419 /* CharacterDetailsViewController.swift in Sources */,
+				7C759D602A4E183500F16419 /* CharacterDetailsCoordinator.swift in Sources */,
 				7C384F3B2A49D8F9006A7327 /* Gender.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
