@@ -57,9 +57,10 @@ class CharacterDetailsHeaderView: UICollectionReusableView {
     func configure(with character: Character) {
         nameLabel.text = character.name
         if let imageURL = URL(string: character.image) {
+            let request = URLRequest(url: imageURL, cachePolicy: .returnCacheDataElseLoad)
             Task {
-                if let (data, _) = try? await URLSession.shared.data(for: URLRequest(url: imageURL)),
-                   let image = UIImage(data: data){
+                if let (data, _) = try? await URLSession.shared.data(for: request),
+                   let image = UIImage(data: data) {
                     self.imageView.image = image
                 }
             }

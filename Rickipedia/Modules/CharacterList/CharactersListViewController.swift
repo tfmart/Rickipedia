@@ -120,6 +120,7 @@ extension CharactersListViewController: UICollectionViewDataSource {
         
         let character = viewModel.characters[indexPath.item]
         cell.configure(with: character)
+        cell.accessories = [.disclosureIndicator()]
         
         return cell
     }
