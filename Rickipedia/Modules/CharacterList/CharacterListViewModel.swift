@@ -23,7 +23,9 @@ final class CharactersListViewModel {
 
     private var hasNextPage: Bool = true
     private var hasNextFilterPage: Bool = true
+
     var currentStateFilter: CharacterStatus?
+    var currentSearchTerm: String?
 
     @Published private(set) var isLoading = false
 
@@ -80,17 +82,29 @@ extension CharactersListViewModel {
             self.isLoading = false
         }
     }
+
+    func character(for id: Int) -> Character? {
+        if isSearching {
+            return filteredCharacters.first(where: { $0.id == id })
+        } else {
+            return allCharacters.first(where: { $0.id == id })
+        }
+    }
 }
 
 // MARK: Seaching and filtering
 extension CharactersListViewModel {
     func didUpdateSearchBar(_ query: String, _ completion: @escaping () -> Void) {
+        guard query != currentSearchTerm else { return }
+        currentSearchTerm = query
         searchTimer?.invalidate()
+        self.currentFilterPage = 1
+        self.hasNextFilterPage = true
 
         guard !query.isEmpty else {
+            self.isSearching = currentStateFilter != nil
+            currentSearchTerm = nil
             self.filteredCharacters = []
-            self.currentFilterPage = 1
-            self.hasNextFilterPage = true
             completion()
             return
         }
@@ -126,14 +140,13 @@ extension CharactersListViewModel {
             let response = try await filterService.search(query,
                                                           status: status,
                                                           page: currentFilterPage)
+            self.isLoading = false
+            self.filteredCharacters.append(contentsOf: response.results.map { converter.convert(character: $0) })
             guard let nextPage = filterService.nextPage else {
-                self.isLoading = false
                 self.hasNextFilterPage = false
                 return
             }
-            self.isLoading = false
             self.currentFilterPage = nextPage
-            self.filteredCharacters.append(contentsOf: response.results.map { converter.convert(character: $0) })
         } catch {
             // Handle error
             self.isLoading = false

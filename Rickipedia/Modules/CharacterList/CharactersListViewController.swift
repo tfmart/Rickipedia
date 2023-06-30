@@ -24,7 +24,7 @@ class CharactersListViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
 
     weak var delegate: CharactersListViewControllerDelegate?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Character>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Character.ID>!
 
     enum Section {
         case main
@@ -155,10 +155,13 @@ class CharactersListViewController: UIViewController {
     }
 
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Character>(collectionView: collectionView) { collectionView, indexPath, character in
+        dataSource = UICollectionViewDiffableDataSource<Section, Character.ID>(collectionView: collectionView) { collectionView, indexPath, characterID in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterCell.reuseIdentifier,
                                                                 for: indexPath) as? RKPCharacterCell else {
                 fatalError("Failed to dequeue CharacterCell")
+            }
+            guard let character = self.viewModel.character(for: characterID) else {
+                fatalError("Could not get character with \(characterID)")
             }
 
             cell.configure(with: character.name, imageURL: character.imageURL)
@@ -169,9 +172,10 @@ class CharactersListViewController: UIViewController {
     }
 
     private func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Character>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Character.ID>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.characters, toSection: .main)
+        let characterIDs = viewModel.characters.map { $0.id }
+        snapshot.appendItems(characterIDs, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -206,7 +210,8 @@ extension CharactersListViewController: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let character = dataSource.itemIdentifier(for: indexPath) else { return }
+        guard let characterID = dataSource.itemIdentifier(for: indexPath),
+        let character = viewModel.character(for: characterID) else { return }
         delegate?.didSelectCharacter(character)
     }
 }
