@@ -180,9 +180,13 @@ extension CharactersListViewController: UISearchResultsUpdating {
 extension CharactersListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let lastItem = viewModel.characters.count - 1
-        if indexPath.item == lastItem && viewModel.hasNextPage {
+        if indexPath.item == lastItem {
             Task {
-                await viewModel.fetchCharacters()
+                if viewModel.isSearching {
+                    await viewModel.searchCharacters(searchController.searchBar.text, status: viewModel.currentStateFilter)
+                } else {
+                    await viewModel.fetchCharacters()
+                }
                 applySnapshot()
             }
         }

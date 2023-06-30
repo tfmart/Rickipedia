@@ -30,7 +30,6 @@ class CharacterDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = viewModel.character.name
         
         setupCollectionView()
         setupNavigationBar()

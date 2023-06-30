@@ -15,9 +15,14 @@ final class CharactersListViewModel {
     
     private var allCharacters: [Character] = []
     private var filteredCharacters: [Character] = []
-    var currentPage: Int = 1
     
-    var hasNextPage: Bool = true
+    private var currentPage: Int = 1
+    private var currentFilterPage: Int = 1
+    
+    var isSearching: Bool = false
+    
+    private var hasNextPage: Bool = true
+    private var hasNextFilterPage: Bool = true
     var currentStateFilter: CharacterStatus? = nil
     
     @Published private(set) var isLoading = false
@@ -52,7 +57,7 @@ extension CharactersListViewModel {
     }
     
     func fetchCharacters() async {
-        guard !isLoading else {
+        guard !isLoading, hasNextPage else {
             return
         }
         
@@ -114,15 +119,32 @@ extension CharactersListViewModel {
     }
     
     func searchCharacters(_ query: String?, status: CharacterStatus?) async {
-        currentStateFilter = status
+        guard !isLoading else { return }
+        if currentStateFilter != status {
+            currentStateFilter = status
+            self.currentFilterPage = 1
+            self.filteredCharacters = []
+        } else {
+            guard hasNextFilterPage else { return }
+        }
+        
         guard shouldPerformQuery(query, status: status) else {
+            self.isSearching = false
             filteredCharacters = []
             return
         }
         do {
-            let response = try await filterService.search(query, status: serviceStatus(from: status), page: 1)
+            self.isSearching = true
+            self.isLoading = true
+            let response = try await filterService.search(query, status: serviceStatus(from: status), page: currentFilterPage)
+            guard let nextPage = nextPage(response.info) else {
+                self.isLoading = false
+                self.hasNextFilterPage = false
+                return
+            }
             self.isLoading = false
-            self.filteredCharacters = response.results.map { convert(character: $0) }
+            self.currentFilterPage = nextPage
+            self.filteredCharacters.append(contentsOf: response.results.map { convert(character: $0) })
         } catch {
             // Handle error
             self.isLoading = false
