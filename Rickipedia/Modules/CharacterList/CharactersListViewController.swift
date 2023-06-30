@@ -90,21 +90,22 @@ class CharactersListViewController: UIViewController {
     }
 
     private func showLoadingIndicator() {
-        if loadingIndicator == nil {
-            loadingIndicator = RKPLoadingIndicator()
-            view.addSubview(loadingIndicator!)
-            loadingIndicator!.translatesAutoresizingMaskIntoConstraints = false
+        if loadingIndicator.isHidden {
+            view.addSubview(loadingIndicator)
+            loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
 
             NSLayoutConstraint.activate([
-                loadingIndicator!.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
-                loadingIndicator!.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
+                loadingIndicator.topAnchor.constraint(equalTo: collectionView.topAnchor),
+                loadingIndicator.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
+                loadingIndicator.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+                loadingIndicator.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
             ])
         }
-        loadingIndicator?.isHidden = false
+        loadingIndicator.isHidden = false
     }
 
     private func hideLoadingIndicator() {
-        loadingIndicator?.isHidden = true
+        loadingIndicator.isHidden = true
     }
 
     private func setupCollectionView() {
