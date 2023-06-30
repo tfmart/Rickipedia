@@ -40,6 +40,7 @@ class CharactersListViewController: UIViewController {
         self.title = "Characters"
         Task {
             await viewModel.fetchCharacters()
+            self.collectionView.reloadData()
         }
     }
     
@@ -52,6 +53,7 @@ class CharactersListViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Characters"
+        searchController.hidesNavigationBarDuringPresentation = false
         navigationItem.searchController = searchController
         definesPresentationContext = true
 
@@ -92,10 +94,16 @@ class CharactersListViewController: UIViewController {
     }
     
     func didApplyStatusFilter(_ status: CharacterStatus) {
-        self.viewModel.filterCharactersByStatus(status)
-        let menu = self.setupFilterButton()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"), menu: menu)
-        self.collectionView.reloadData()
+        Task {
+            var statusToApply: CharacterStatus? = status
+            if status == viewModel.currentStateFilter {
+                statusToApply = nil
+            }
+            await self.viewModel.searchCharacters(searchController.searchBar.text, status: statusToApply)
+            let menu = self.setupFilterButton()
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"), menu: menu)
+            self.collectionView.reloadData()
+        }
     }
 }
 
@@ -136,7 +144,9 @@ extension CharactersListViewController: UICollectionViewDelegate {
 extension CharactersListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        viewModel.filterCharactersByName(searchText)
-        collectionView.reloadData()
+        Task {
+            await viewModel.searchCharacters(searchText, status: viewModel.currentStateFilter)
+            collectionView.reloadData()
+        }
     }
 }

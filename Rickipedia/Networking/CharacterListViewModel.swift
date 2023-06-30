@@ -9,6 +9,7 @@ import Foundation
 
 final class CharactersListViewModel {
     let charactersService: AllCharactersServiceProtocol
+    let filterService: FilterCharactersServiceProtocol
     
     private var allCharacters: [Character] = []
     private var filteredCharacters: [Character] = []
@@ -18,12 +19,16 @@ final class CharactersListViewModel {
     var hasNextPage: Bool = true
     var currentStateFilter: CharacterStatus? = nil
     
+    private var searchTimer: Timer?
+    
     var characters: [Character] {
         return filteredCharacters.isEmpty ? allCharacters : filteredCharacters
     }
     
-    init(charactersService: AllCharactersServiceProtocol = AllCharactersService()) {
+    init(charactersService: AllCharactersServiceProtocol = AllCharactersService(),
+         filterService: FilterCharactersServiceProtocol = FilterCharactersService()) {
         self.charactersService = charactersService
+        self.filterService = filterService
     }
     
     func fetchCharacters(page: Int, _ completion: @escaping (Result<Void, Error>) -> Void) {
@@ -31,7 +36,6 @@ final class CharactersListViewModel {
             do {
                 let response = try await charactersService.fetch(page: page)
                 allCharacters.append(contentsOf: response.results)
-                filteredCharacters = allCharacters
                 completion(.success(()))
             } catch {
                 completion(.failure(error))
@@ -49,43 +53,42 @@ final class CharactersListViewModel {
         do {
             let response = try await charactersService.fetch(page: currentPage)
             self.isLoading = false
-            if self.currentPage == response.info.pages {
-                self.hasNextPage = false
-            }
             self.allCharacters.append(contentsOf: response.results)
-            self.currentPage += 1
-            if let currentStateFilter {
-                filterCharactersByStatus(currentStateFilter)
+            guard let nextPage = response.info.nextPage else {
+                self.hasNextPage = false
+                return
             }
+            self.currentPage = nextPage
         } catch {
             // Handle error
             self.isLoading = false
         }
     }
     
-    func filterCharactersByName(_ name: String) {
-        if name.isEmpty {
-            if currentStateFilter == nil {
-                filteredCharacters = allCharacters
+    func didUpdateSearchBar(_ query: String) {
+        guard !query.isEmpty else { return }
+        searchTimer?.invalidate()
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { [weak self] _ in
+            guard let self else { return }
+            Task {
+                await self.searchCharacters(query, status: self.currentStateFilter)
             }
-        } else if currentStateFilter != nil {
-            filteredCharacters = filteredCharacters.filter { $0.name.lowercased().contains(name.lowercased()) }
-        } else {
-            filteredCharacters = allCharacters.filter { $0.name.lowercased().contains(name.lowercased()) }
         }
     }
     
-    func filterCharactersByStatus(_ status: CharacterStatus?) {
-        guard currentStateFilter != status else {
-            currentStateFilter = nil
-            filteredCharacters = allCharacters
-            return
-        }
+    func searchCharacters(_ query: String?, status: CharacterStatus?) async {
         currentStateFilter = status
-        guard let status else {
-            filteredCharacters = allCharacters
+        guard !(query == nil && status == nil) else {
+            filteredCharacters = []
             return
         }
-        filteredCharacters = allCharacters.filter { $0.status == status }
+        do {
+            let response = try await filterService.search(query, status: status)
+            self.isLoading = false
+            self.filteredCharacters = response.results
+        } catch {
+            // Handle error
+            self.isLoading = false
+        }
     }
 }
