@@ -7,16 +7,18 @@
 
 import Foundation
 
-class FilterCharactersService: Service {
-    var queries: [URLQueryItem]
+protocol FilterCharactersServiceProtocol: Service {
+    func search(_ query: String?, status: CharacterStatus?) async throws -> QueryResponse
+}
+
+class FilterCharactersService: FilterCharactersServiceProtocol {
+    var queries: [URLQueryItem] = []
     
-    init(
-        name: String?,
-        status: CharacterStatus?
-    ) {
+    func search(_ query: String?, status: CharacterStatus?) async throws -> QueryResponse {
         self.queries = [
-            .init(parameter: .name, value: name),
+            .init(parameter: .name, value: query),
             .init(parameter: .status, value: status?.rawValue)
         ]
+        return try await start()
     }
 }
