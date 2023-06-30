@@ -61,7 +61,7 @@ extension CharactersListViewModel {
             self.isLoading = false
             let charactersToAppend = response.results.map { convert(character: $0) }
             allCharacters.append(contentsOf: charactersToAppend)
-            guard let next = response.info.next, let nextPage = Int(next) else {
+            guard let nextPage = nextPage(response.info) else {
                 self.hasNextPage = false
                 return
             }
@@ -74,15 +74,27 @@ extension CharactersListViewModel {
     
     func convert(character: RKPCharacter) -> Character {
         Character(id: character.id,
-                     name: character.name,
-                     stauts: .init(rawValue: character.status.rawValue) ?? .unknown,
-                     type: character.type.isEmpty ? nil : character.type,
-                     species: character.species,
-                     gender: .init(rawValue: character.gender.rawValue) ?? .unknown,
-                     origin: character.origin.name,
-                     location: character.location.name,
-                     imageURL: URL(string: character.image),
-                     episodesCount: character.episode.count)
+                  name: character.name,
+                  stauts: .init(rawValue: character.status.rawValue) ?? .unknown,
+                  type: character.type.isEmpty ? nil : character.type,
+                  species: character.species,
+                  gender: .init(rawValue: character.gender.rawValue) ?? .unknown,
+                  origin: character.origin.name,
+                  location: character.location.name,
+                  imageURL: URL(string: character.image),
+                  episodesCount: character.episode.count)
+    }
+    
+    func nextPage(_ info: RKPQueryInfo) -> Int? {
+        guard let next = info.next,
+              let nextURL = URLComponents(string: next),
+              let pageQuery =  nextURL.queryItems?.first(where: {
+                  $0.name == "page"
+              }),
+              let pageValue = pageQuery.value else {
+            return nil
+        }
+        return Int(pageValue)
     }
 }
 

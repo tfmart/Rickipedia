@@ -16,6 +16,7 @@ class CharactersListViewController: UIViewController {
     private let collectionView: UICollectionView
     private let viewModel: CharactersListViewModel
     private let searchController = UISearchController(searchResultsController: nil)
+    private let loadingIndicator = RKPLoadingIndicator()
 
     weak var delegate: CharactersListViewControllerDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Character>!
@@ -45,12 +46,25 @@ class CharactersListViewController: UIViewController {
         self.title = "Characters"
         self.view.backgroundColor = .systemBackground
         setupCollectionView()
+        setupLoadingInidcator()
         configureDataSource()
         
         Task {
+            self.loadingIndicator.isHidden = false
             await viewModel.fetchCharacters()
+            self.loadingIndicator.isHidden = true
             applySnapshot()
         }
+    }
+    
+    private func setupLoadingInidcator() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
+        ])
     }
     
     private func setupCollectionView() {
