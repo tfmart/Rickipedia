@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Gender: String, Decodable {
+enum Gender: String {
     case female = "Female"
     case male = "Male"
     case genderless = "Genderless"
