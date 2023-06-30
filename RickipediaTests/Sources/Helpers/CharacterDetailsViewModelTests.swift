@@ -22,7 +22,7 @@ class CharacterDetailsViewModelTests: XCTestCase {
                                   url: "",
                                   created: "")
         let viewModel = CharacterDetailsViewModel(character: character)
-        
+
         XCTAssertEqual(viewModel.getCharacterDetails().count, 7)
         XCTAssertEqual(viewModel.getCharacterDetails()[0].title, "Status")
         XCTAssertEqual(viewModel.getCharacterDetails()[0].value, "Alive")

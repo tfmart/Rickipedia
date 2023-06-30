@@ -17,17 +17,17 @@ class CharactersListViewController: UIViewController {
     private let collectionView: UICollectionView
     private let viewModel: CharactersListViewModel
     private let searchController = UISearchController(searchResultsController: nil)
-    
+
     private var loadingIndicator: UIView?
     private var cancellables = Set<AnyCancellable>()
 
     weak var delegate: CharactersListViewControllerDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Character>!
-    
+
     enum Section {
         case main
     }
-    
+
     init(viewModel: CharactersListViewModel) {
         self.viewModel = viewModel
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -35,22 +35,22 @@ class CharactersListViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout.list(using: UICollectionLayoutListConfiguration(appearance: .plain))
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil)
-        
+
         let menu = setupFilterButton()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"), menu: menu)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Characters"
         self.view.backgroundColor = .systemBackground
         setupCollectionView()
         configureDataSource()
-        
+
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
@@ -61,19 +61,19 @@ class CharactersListViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
-        
+
         Task {
             await viewModel.fetchCharacters()
             applySnapshot()
         }
     }
-    
+
     private func showLoadingIndicator() {
         if loadingIndicator == nil {
             loadingIndicator = RKPLoadingIndicator()
             view.addSubview(loadingIndicator!)
             loadingIndicator!.translatesAutoresizingMaskIntoConstraints = false
-            
+
             NSLayoutConstraint.activate([
                 loadingIndicator!.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
                 loadingIndicator!.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
@@ -81,16 +81,16 @@ class CharactersListViewController: UIViewController {
         }
         loadingIndicator?.isHidden = false
     }
-    
+
     private func hideLoadingIndicator() {
         loadingIndicator?.isHidden = true
     }
-    
+
     private func setupCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(RKPCharacterCell.self, forCellWithReuseIdentifier: RKPCharacterCell.reuseIdentifier)
         collectionView.delegate = self
-        
+
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Characters"
@@ -99,7 +99,7 @@ class CharactersListViewController: UIViewController {
         definesPresentationContext = true
 
         view.addSubview(collectionView)
-        
+
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -107,7 +107,7 @@ class CharactersListViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     private func setupFilterButton() -> UIMenu {
         let menuItems: [UIAction] = [
             UIAction(title: "Alive",
@@ -129,10 +129,10 @@ class CharactersListViewController: UIViewController {
                          self.didApplyStatusFilter(.unknown)
                      })
         ]
-        
+
         return UIMenu(title: "Status", children: menuItems)
     }
-    
+
     func didApplyStatusFilter(_ status: CharacterStatus) {
         Task {
             var statusToApply: CharacterStatus? = status
@@ -145,20 +145,20 @@ class CharactersListViewController: UIViewController {
             applySnapshot()
         }
     }
-    
+
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Character>(collectionView: collectionView) { collectionView, indexPath, character in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterCell.reuseIdentifier, for: indexPath) as? RKPCharacterCell else {
                 fatalError("Failed to dequeue CharacterCell")
             }
-            
+
             cell.configure(with: character.name, imageURL: character.imageURL)
             cell.accessories = [.disclosureIndicator()]
-            
+
             return cell
         }
     }
-    
+
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Character>()
         snapshot.appendSections([.main])
@@ -191,7 +191,7 @@ extension CharactersListViewController: UICollectionViewDelegate {
             }
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let character = dataSource.itemIdentifier(for: indexPath) else { return }
         delegate?.didSelectCharacter(character)

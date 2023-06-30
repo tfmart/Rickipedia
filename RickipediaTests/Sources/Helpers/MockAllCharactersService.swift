@@ -10,7 +10,7 @@ import Foundation
 
 class MockAllCharactersService: AllCharactersServiceProtocol {
     var queries: [URLQueryItem] = []
-    
+
     func fetch(page: Int) async throws -> QueryResponse {
         guard let pathString = Bundle(for: type(of: self)).path(forResource: "allCharactersMock", ofType: "json") else {
             fatalError("Could not find mock JSON file")

@@ -12,27 +12,27 @@ import RKPService
 final class CharactersListViewModel {
     let charactersService: RKPAllCharactersService
     let filterService: RKPFilterCharactersServiceProtocol
-    
+
     private var allCharacters: [Character] = []
     private var filteredCharacters: [Character] = []
-    
+
     private var currentPage: Int = 1
     private var currentFilterPage: Int = 1
-    
+
     var isSearching: Bool = false
-    
+
     private var hasNextPage: Bool = true
     private var hasNextFilterPage: Bool = true
     var currentStateFilter: CharacterStatus? = nil
-    
+
     @Published private(set) var isLoading = false
-    
+
     private var searchTimer: Timer?
-    
+
     var characters: [Character] {
         return filteredCharacters.isEmpty ? allCharacters : filteredCharacters
     }
-    
+
     init(charactersService: RKPAllCharactersService = RKPAllCharactersService(),
          filterService: RKPFilterCharactersServiceProtocol = RKPFilterCharactersService()) {
         self.charactersService = charactersService
@@ -55,14 +55,14 @@ extension CharactersListViewModel {
             }
         }
     }
-    
+
     func fetchCharacters() async {
         guard !isLoading, hasNextPage else {
             return
         }
-        
+
         isLoading = true
-        
+
         do {
             let response = try await charactersService.fetch(page: currentPage)
             self.isLoading = false
@@ -78,7 +78,7 @@ extension CharactersListViewModel {
             self.isLoading = false
         }
     }
-    
+
     func convert(character: RKPCharacter) -> Character {
         Character(id: character.id,
                   name: character.name,
@@ -91,7 +91,7 @@ extension CharactersListViewModel {
                   imageURL: URL(string: character.image),
                   episodesCount: character.episode.count)
     }
-    
+
     func nextPage(_ info: RKPQueryInfo) -> Int? {
         guard let next = info.next,
               let nextURL = URLComponents(string: next),
@@ -117,7 +117,7 @@ extension CharactersListViewModel {
             }
         }
     }
-    
+
     func searchCharacters(_ query: String?, status: CharacterStatus?) async {
         guard !isLoading else { return }
         if currentStateFilter != status {
@@ -127,7 +127,7 @@ extension CharactersListViewModel {
         } else {
             guard hasNextFilterPage else { return }
         }
-        
+
         guard shouldPerformQuery(query, status: status) else {
             self.isSearching = false
             filteredCharacters = []
@@ -150,12 +150,12 @@ extension CharactersListViewModel {
             self.isLoading = false
         }
     }
-    
+
     func shouldPerformQuery(_ query: String?, status: CharacterStatus?) -> Bool {
         guard let query else { return status != nil }
         return !(query.isEmpty && status == nil)
     }
-    
+
     func serviceStatus(from characterStatus: CharacterStatus?) -> RKPCharacterStatus? {
         guard let characterStatus else {
             return nil

@@ -10,12 +10,12 @@ import UIKit
 class CharacterDetailsViewModel {
     var character: Character
     private var details: [CharacterDetail] = []
-    
+
     init(character: Character) {
         self.character = character
         updateDetails()
     }
-    
+
     private func updateDetails() {
         details.append(CharacterDetail(title: "Status", value: character.stauts.rawValue))
         details.append(CharacterDetail(title: "Species", value: character.species))
@@ -27,9 +27,8 @@ class CharacterDetailsViewModel {
         details.append(CharacterDetail(title: "Location", value: character.location))
         details.append(CharacterDetail(title: "Episode Count", value: "\(character.episodesCount)"))
     }
-    
+
     func getCharacterDetails() -> [CharacterDetail] {
         return details
     }
 }
-
