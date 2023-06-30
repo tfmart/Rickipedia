@@ -8,6 +8,7 @@
 // swiftlint:disable line_length
 
 import UIKit
+import RKPDesign
 
 class CharacterDetailsViewController: UIViewController {
     private var viewModel: CharacterDetailsViewModel
@@ -48,39 +49,19 @@ class CharacterDetailsViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        collectionView.register(CharacterDetailCell.self,
-                                forCellWithReuseIdentifier: CharacterDetailCell.reuseIdentifier)
-        collectionView.register(CharacterDetailsHeaderView.self,
+        collectionView.register(RKPCharacterDetailCell.self,
+                                forCellWithReuseIdentifier: RKPCharacterDetailCell.reuseIdentifier)
+        collectionView.register(RKPDetailHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier)
+                                withReuseIdentifier: RKPDetailHeaderView.reuseIdentifier)
 
-        dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier,
-                                                                for: indexPath) as? CharacterDetailCell else {
-                fatalError("Failed to dequeue CharacterDetailCell")
-            }
-            cell.configure(title: detail.title, value: detail.value)
-            cell.backgroundConfiguration = .listGroupedCell()
-            return cell
-        }
-
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionHeader,
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                             withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier,
-                                                                             for: indexPath) as? CharacterDetailsHeaderView else {
-                return nil
-            }
-
-            headerView.configure(with: self.viewModel.character)
-            return headerView
-        }
+        configureDataSource()
     }
 
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier,
-                                                                for: indexPath) as? CharacterDetailCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterDetailCell.reuseIdentifier,
+                                                                for: indexPath) as? RKPCharacterDetailCell else {
                 fatalError("Failed to dequeue CharacterDetailCell")
             }
             cell.configure(title: detail.title, value: detail.value)
@@ -91,12 +72,12 @@ class CharacterDetailsViewController: UIViewController {
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard kind == UICollectionView.elementKindSectionHeader,
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                 withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier,
-                                                                                 for: indexPath) as? CharacterDetailsHeaderView else {
+                                                                                 withReuseIdentifier: RKPDetailHeaderView.reuseIdentifier,
+                                                                                 for: indexPath) as? RKPDetailHeaderView else {
                 return nil
             }
 
-            headerView.configure(with: self.viewModel.character)
+            headerView.configure(with: self.viewModel.character.name, image: self.viewModel.character.imageURL)
             return headerView
         }
     }

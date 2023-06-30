@@ -25,8 +25,6 @@
 		7C759D602A4E183500F16419 /* CharacterDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D5F2A4E183500F16419 /* CharacterDetailsCoordinator.swift */; };
 		7C759D622A4E184D00F16419 /* CharacterDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D612A4E184D00F16419 /* CharacterDetailsViewModel.swift */; };
 		7C759D642A4E188A00F16419 /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D632A4E188A00F16419 /* CharacterDetailsViewController.swift */; };
-		7C759D662A4E18A000F16419 /* CharacterDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D652A4E18A000F16419 /* CharacterDetailsHeaderView.swift */; };
-		7C759D6A2A4E1BA700F16419 /* CharacterDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D692A4E1BA700F16419 /* CharacterDetailCell.swift */; };
 		7C759D702A4E612A00F16419 /* CharacterDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D6F2A4E612A00F16419 /* CharacterDetail.swift */; };
 		7C759D722A4E614C00F16419 /* CharacterDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D712A4E614C00F16419 /* CharacterDetailSection.swift */; };
 		7C759D762A4E64B500F16419 /* CharacterDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D752A4E64B500F16419 /* CharacterDetailsViewModelTests.swift */; };
@@ -79,8 +77,6 @@
 		7C759D5F2A4E183500F16419 /* CharacterDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsCoordinator.swift; sourceTree = "<group>"; };
 		7C759D612A4E184D00F16419 /* CharacterDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModel.swift; sourceTree = "<group>"; };
 		7C759D632A4E188A00F16419 /* CharacterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewController.swift; sourceTree = "<group>"; };
-		7C759D652A4E18A000F16419 /* CharacterDetailsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsHeaderView.swift; sourceTree = "<group>"; };
-		7C759D692A4E1BA700F16419 /* CharacterDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailCell.swift; sourceTree = "<group>"; };
 		7C759D6F2A4E612A00F16419 /* CharacterDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetail.swift; sourceTree = "<group>"; };
 		7C759D712A4E614C00F16419 /* CharacterDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailSection.swift; sourceTree = "<group>"; };
 		7C759D752A4E64B500F16419 /* CharacterDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModelTests.swift; sourceTree = "<group>"; };
@@ -255,8 +251,6 @@
 				7C759D5F2A4E183500F16419 /* CharacterDetailsCoordinator.swift */,
 				7C759D612A4E184D00F16419 /* CharacterDetailsViewModel.swift */,
 				7C759D632A4E188A00F16419 /* CharacterDetailsViewController.swift */,
-				7C759D652A4E18A000F16419 /* CharacterDetailsHeaderView.swift */,
-				7C759D692A4E1BA700F16419 /* CharacterDetailCell.swift */,
 			);
 			path = CharacterDetail;
 			sourceTree = "<group>";
@@ -439,10 +433,8 @@
 				7C759D722A4E614C00F16419 /* CharacterDetailSection.swift in Sources */,
 				7C5BA4762A4F662A003C0975 /* CharacterListState.swift in Sources */,
 				7C759D702A4E612A00F16419 /* CharacterDetail.swift in Sources */,
-				7C759D6A2A4E1BA700F16419 /* CharacterDetailCell.swift in Sources */,
 				7CE23FEB2A4C965C00E4D41B /* CharactersListViewController.swift in Sources */,
 				7CE23FE72A4C958400E4D41B /* Coordinator.swift in Sources */,
-				7C759D662A4E18A000F16419 /* CharacterDetailsHeaderView.swift in Sources */,
 				7C5BA46B2A4F6510003C0975 /* Gender.swift in Sources */,
 				7C5BA46C2A4F6510003C0975 /* Character.swift in Sources */,
 				7C384F032A49CDB2006A7327 /* AppDelegate.swift in Sources */,
