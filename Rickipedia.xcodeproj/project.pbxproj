@@ -192,7 +192,6 @@
 				7C384F352A49D881006A7327 /* Model */,
 				7C384F332A49D57B006A7327 /* NetworkingConstant.swift */,
 				7C384F422A49DE76006A7327 /* Service.swift */,
-				7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -270,6 +269,7 @@
 				7CE23FEC2A4C9AA600E4D41B /* CharacterCell.swift */,
 				7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */,
 				7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */,
+				7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */,
 			);
 			path = CharacterList;
 			sourceTree = "<group>";
