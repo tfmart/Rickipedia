@@ -17,7 +17,7 @@ class CharacterDetailsViewModel {
     }
 
     private func updateDetails() {
-        details.append(CharacterDetail(title: "Status", value: character.stauts.rawValue))
+        details.append(CharacterDetail(title: "Status", value: character.status.rawValue))
         details.append(CharacterDetail(title: "Species", value: character.species))
         if let type = character.type {
             details.append(CharacterDetail(title: "Type", value: type))

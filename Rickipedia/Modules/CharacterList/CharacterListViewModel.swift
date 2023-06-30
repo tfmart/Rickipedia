@@ -7,11 +7,11 @@
 
 import Combine
 import Foundation
-import RKPService
 
 final class CharactersListViewModel {
-    let charactersService: RKPAllCharactersService
-    let filterService: RKPFilterCharactersServiceProtocol
+    let charactersService: CharactersService
+    let filterService: FilterService
+    let converter: CharacterConverter
 
     private var allCharacters: [Character] = []
     private var filteredCharacters: [Character] = []
@@ -33,10 +33,12 @@ final class CharactersListViewModel {
         return filteredCharacters.isEmpty ? allCharacters : filteredCharacters
     }
 
-    init(charactersService: RKPAllCharactersService = RKPAllCharactersService(),
-         filterService: RKPFilterCharactersServiceProtocol = RKPFilterCharactersService()) {
+    init(charactersService: CharactersService = DefaultCharactersService(),
+         filterService: FilterService = DefaultFilterService(),
+         characterConverter: CharacterConverter = DefaultCharacterConverter()) {
         self.charactersService = charactersService
         self.filterService = filterService
+        self.converter = characterConverter
     }
 }
 
@@ -47,7 +49,7 @@ extension CharactersListViewModel {
         Task {
             do {
                 let response = try await charactersService.fetch(page: page)
-                let charactersToAppend = response.results.map { convert(character: $0) }
+                let charactersToAppend = response.results.map { converter.convert(character: $0) }
                 allCharacters.append(contentsOf: charactersToAppend)
                 completion(.success(()))
             } catch {
@@ -66,9 +68,9 @@ extension CharactersListViewModel {
         do {
             let response = try await charactersService.fetch(page: currentPage)
             self.isLoading = false
-            let charactersToAppend = response.results.map { convert(character: $0) }
+            let charactersToAppend = response.results.map { converter.convert(character: $0) }
             allCharacters.append(contentsOf: charactersToAppend)
-            guard let nextPage = nextPage(response.info) else {
+            guard let nextPage = charactersService.nextPage else {
                 self.hasNextPage = false
                 return
             }
@@ -78,42 +80,26 @@ extension CharactersListViewModel {
             self.isLoading = false
         }
     }
-
-    func convert(character: RKPCharacter) -> Character {
-        Character(id: character.id,
-                  name: character.name,
-                  stauts: .init(rawValue: character.status.rawValue) ?? .unknown,
-                  type: character.type.isEmpty ? nil : character.type,
-                  species: character.species,
-                  gender: .init(rawValue: character.gender.rawValue) ?? .unknown,
-                  origin: character.origin.name,
-                  location: character.location.name,
-                  imageURL: URL(string: character.image),
-                  episodesCount: character.episode.count)
-    }
-
-    func nextPage(_ info: RKPQueryInfo) -> Int? {
-        guard let next = info.next,
-              let nextURL = URLComponents(string: next),
-              let pageQuery =  nextURL.queryItems?.first(where: {
-                  $0.name == "page"
-              }),
-              let pageValue = pageQuery.value else {
-            return nil
-        }
-        return Int(pageValue)
-    }
 }
 
 // MARK: Seaching and filtering
 extension CharactersListViewModel {
-    func didUpdateSearchBar(_ query: String) {
-        guard !query.isEmpty else { return }
+    func didUpdateSearchBar(_ query: String, _ completion: @escaping () -> Void) {
         searchTimer?.invalidate()
+
+        guard !query.isEmpty else {
+            self.filteredCharacters = []
+            self.currentFilterPage = 1
+            self.hasNextFilterPage = true
+            completion()
+            return
+        }
+
         searchTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { [weak self] _ in
             guard let self else { return }
             Task {
                 await self.searchCharacters(query, status: self.currentStateFilter)
+                completion()
             }
         }
     }
@@ -129,24 +115,25 @@ extension CharactersListViewModel {
         }
 
         guard shouldPerformQuery(query, status: status) else {
-            self.isSearching = false
             filteredCharacters = []
+            currentFilterPage = 1
+            self.isSearching = false
             return
         }
         do {
             self.isSearching = true
             self.isLoading = true
             let response = try await filterService.search(query,
-                                                          status: serviceStatus(from: status),
+                                                          status: status,
                                                           page: currentFilterPage)
-            guard let nextPage = nextPage(response.info) else {
+            guard let nextPage = filterService.nextPage else {
                 self.isLoading = false
                 self.hasNextFilterPage = false
                 return
             }
             self.isLoading = false
             self.currentFilterPage = nextPage
-            self.filteredCharacters.append(contentsOf: response.results.map { convert(character: $0) })
+            self.filteredCharacters.append(contentsOf: response.results.map { converter.convert(character: $0) })
         } catch {
             // Handle error
             self.isLoading = false
@@ -156,12 +143,5 @@ extension CharactersListViewModel {
     func shouldPerformQuery(_ query: String?, status: CharacterStatus?) -> Bool {
         guard let query else { return status != nil }
         return !(query.isEmpty && status == nil)
-    }
-
-    func serviceStatus(from characterStatus: CharacterStatus?) -> RKPCharacterStatus? {
-        guard let characterStatus else {
-            return nil
-        }
-        return RKPCharacterStatus(rawValue: characterStatus.rawValue)
     }
 }

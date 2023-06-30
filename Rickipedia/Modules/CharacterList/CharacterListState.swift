@@ -12,4 +12,13 @@ enum CharactersListState {
     case loading
     case loaded
     case error(Error)
+
+    var isLoading: Bool {
+        switch self {
+        case .loading:
+            return true
+        default:
+            return false
+        }
+    }
 }

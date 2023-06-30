@@ -16,7 +16,7 @@ struct DefaultCharacterConverter: CharacterConverter {
     func convert(character: RKPCharacter) -> Character {
         Character(id: character.id,
                   name: character.name,
-                  stauts: .init(rawValue: character.status.rawValue) ?? .unknown,
+                  status: .init(rawValue: character.status.rawValue) ?? .unknown,
                   type: character.type.isEmpty ? nil : character.type,
                   species: character.species,
                   gender: .init(rawValue: character.gender.rawValue) ?? .unknown,

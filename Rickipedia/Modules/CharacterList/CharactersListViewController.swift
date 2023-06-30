@@ -179,9 +179,8 @@ class CharactersListViewController: UIViewController {
 extension CharactersListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        Task {
-            await viewModel.searchCharacters(searchText, status: viewModel.currentStateFilter)
-            applySnapshot()
+        viewModel.didUpdateSearchBar(searchText) {
+            self.applySnapshot()
         }
     }
 }

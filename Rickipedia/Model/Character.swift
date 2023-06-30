@@ -10,7 +10,7 @@ import Foundation
 struct Character: Hashable {
     let id: Int
     let name: String
-    let stauts: CharacterStatus
+    let status: CharacterStatus
     let type: String?
     let species: String
     let gender: Gender
@@ -22,7 +22,7 @@ struct Character: Hashable {
     static func == (lhs: Character, rhs: Character) -> Bool {
         return lhs.id == rhs.id &&
         lhs.name == rhs.name &&
-        lhs.stauts == rhs.stauts &&
+        lhs.status == rhs.status &&
         lhs.type == rhs.type &&
         lhs.species == rhs.species &&
         lhs.gender == rhs.gender &&
