@@ -20,7 +20,23 @@ class CharactersListViewController: UIViewController {
     private let viewModel: CharactersListViewModel
     private let searchController = UISearchController(searchResultsController: nil)
 
-    private var loadingIndicator: UIView?
+    private let loadingIndicator: UIView = {
+        let backgroundView = UIView()
+        let loadingIndicator = RKPLoadingIndicator()
+
+        backgroundView.backgroundColor = .black.withAlphaComponent(0.5)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+
+        backgroundView.addSubview(loadingIndicator)
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor)
+        ])
+        return backgroundView
+    }()
+
     private var cancellables = Set<AnyCancellable>()
 
     weak var delegate: CharactersListViewControllerDelegate?
