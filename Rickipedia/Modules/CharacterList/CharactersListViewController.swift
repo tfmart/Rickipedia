@@ -38,7 +38,9 @@ class CharactersListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Characters"
-        viewModel.fetchCharacters()
+        Task {
+            await viewModel.fetchCharacters()
+        }
     }
     
     private func setupCollectionView() {
@@ -118,8 +120,10 @@ extension CharactersListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let lastItem = viewModel.characters.count - 1
         if indexPath.item == lastItem && viewModel.hasNextPage {
-            viewModel.fetchCharacters()
-            collectionView.reloadData()
+            Task {
+                await viewModel.fetchCharacters()
+                collectionView.reloadData()
+            }
         }
     }
     

@@ -10,8 +10,7 @@ import XCTest
 
 final class CharacterListViewModelTests: XCTestCase {
     func testFetchingFirstPage() async throws {
-        let viewModel = CharacterListViewModel()
-        viewModel.service = MockAllCharactersService()
+        let viewModel = CharactersListViewModel(charactersService: MockAllCharactersService())
         XCTAssertEqual(viewModel.currentPage, 1)
         XCTAssertTrue(viewModel.characters.isEmpty)
         await viewModel.fetchCharacters()

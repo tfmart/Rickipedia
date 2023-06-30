@@ -8,11 +8,11 @@
 import Foundation
 
 final class CharactersListViewModel {
-    private let charactersService: AllCharactersServiceProtocol
+    let charactersService: AllCharactersServiceProtocol
     
     private var allCharacters: [Character] = []
     private var filteredCharacters: [Character] = []
-    private var currentPage: Int = 1
+    var currentPage: Int = 1
     
     var isLoading: Bool = false
     var hasNextPage: Bool = true
@@ -39,29 +39,27 @@ final class CharactersListViewModel {
         }
     }
     
-    func fetchCharacters() {
+    func fetchCharacters() async {
         guard !isLoading else {
             return
         }
         
         isLoading = true
         
-        Task {
-            do {
-                let response = try await charactersService.fetch(page: currentPage)
-                self.isLoading = false
-                if self.currentPage == response.info.pages {
-                    self.hasNextPage = false
-                }
-                self.allCharacters.append(contentsOf: response.results)
-                self.currentPage += 1
-                if let currentStateFilter {
-                    filterCharactersByStatus(currentStateFilter)
-                }
-            } catch {
-                // Handle error
-                self.isLoading = false
+        do {
+            let response = try await charactersService.fetch(page: currentPage)
+            self.isLoading = false
+            if self.currentPage == response.info.pages {
+                self.hasNextPage = false
             }
+            self.allCharacters.append(contentsOf: response.results)
+            self.currentPage += 1
+            if let currentStateFilter {
+                filterCharactersByStatus(currentStateFilter)
+            }
+        } catch {
+            // Handle error
+            self.isLoading = false
         }
     }
     
