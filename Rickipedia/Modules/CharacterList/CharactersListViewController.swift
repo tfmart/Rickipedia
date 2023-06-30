@@ -180,7 +180,9 @@ extension CharactersListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         viewModel.didUpdateSearchBar(searchText) {
-            self.applySnapshot()
+            DispatchQueue.main.async {
+                self.applySnapshot()
+            }
         }
     }
 }
