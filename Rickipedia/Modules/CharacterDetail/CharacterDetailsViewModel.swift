@@ -9,25 +9,27 @@ import UIKit
 
 class CharacterDetailsViewModel {
     var character: Character
+    private var details: [CharacterDetail] = []
     
     init(character: Character) {
         self.character = character
+        updateDetails()
     }
     
-    func backgroundColor(for image: UIImage) -> UIColor {
-        guard let color = image.averageColor else {
-            return .systemGroupedBackground
-        }
-        return color
+    private func updateDetails() {
+        details = [
+            CharacterDetail(title: "Status", value: character.status.rawValue),
+            CharacterDetail(title: "Species", value: character.species),
+            CharacterDetail(title: "Type", value: character.type),
+            CharacterDetail(title: "Gender", value: character.gender.rawValue),
+            CharacterDetail(title: "Origin", value: character.origin.name),
+            CharacterDetail(title: "Location", value: character.location.name),
+            CharacterDetail(title: "Episode Count", value: "\(character.episode.count)")
+        ]
     }
     
-    var backgroundColor: UIColor {
-        guard let imageUrl = URL(string: character.image),
-              let imageData = try? Data(contentsOf: imageUrl),
-              let image = UIImage(data: imageData),
-              let color = image.averageColor else {
-            return .systemGroupedBackground
-        }
-        return color
+    func getCharacterDetails() -> [CharacterDetail] {
+        return details
     }
 }
+

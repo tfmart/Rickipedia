@@ -11,7 +11,7 @@ class CharacterDetailsViewController: UIViewController {
     private var viewModel: CharacterDetailsViewModel
     
     private let collectionView: UICollectionView
-    private var dataSource: UICollectionViewDiffableDataSource<Section, CharacterDetail>!
+    private var dataSource: UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>!
     
     init(viewModel: CharacterDetailsViewModel) {
         self.viewModel = viewModel
@@ -51,7 +51,7 @@ class CharacterDetailsViewController: UIViewController {
         collectionView.register(CharacterDetailCell.self, forCellWithReuseIdentifier: CharacterDetailCell.reuseIdentifier)
         collectionView.register(CharacterDetailsHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier)
         
-        dataSource = UICollectionViewDiffableDataSource<Section, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
+        dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier, for: indexPath) as! CharacterDetailCell
             cell.configure(title: detail.title, value: detail.value)
             cell.backgroundConfiguration = .listGroupedCell()
@@ -73,32 +73,33 @@ class CharacterDetailsViewController: UIViewController {
         // Configure navigation bar if needed
     }
     
+    private func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier, for: indexPath) as! CharacterDetailCell
+            cell.configure(title: detail.title, value: detail.value)
+            cell.backgroundConfiguration = .listGroupedCell()
+            return cell
+        }
+
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else {
+                return nil
+            }
+
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier, for: indexPath) as! CharacterDetailsHeaderView
+            headerView.configure(with: self.viewModel.character)
+            return headerView
+        }
+    }
+
+    
     private func updateCollectionView() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, CharacterDetail>()
+        var snapshot = NSDiffableDataSourceSnapshot<CharacterDetailSection, CharacterDetail>()
         snapshot.appendSections([.details])
-
-        let details: [CharacterDetail] = [
-            CharacterDetail(title: "Status", value: viewModel.character.status.rawValue),
-            CharacterDetail(title: "Species", value: viewModel.character.species),
-            CharacterDetail(title: "Type", value: viewModel.character.type),
-            CharacterDetail(title: "Gender", value: viewModel.character.gender.rawValue),
-            CharacterDetail(title: "Origin", value: viewModel.character.origin.name),
-            CharacterDetail(title: "Location", value: viewModel.character.location.name),
-            CharacterDetail(title: "Episode Count", value: "\(viewModel.character.episode.count)")
-        ]
-
+        
+        let details = viewModel.getCharacterDetails()
         snapshot.appendItems(details, toSection: .details)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-}
 
-extension CharacterDetailsViewController {
-    enum Section {
-        case details
-    }
-    
-    struct CharacterDetail: Hashable {
-        let title: String
-        let value: String
-    }
 }
