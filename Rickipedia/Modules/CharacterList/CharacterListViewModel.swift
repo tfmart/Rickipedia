@@ -78,7 +78,7 @@ final class CharactersListViewModel {
     
     func searchCharacters(_ query: String?, status: CharacterStatus?) async {
         currentStateFilter = status
-        guard !(query == nil && status == nil) else {
+        guard shouldPerformQuery(query, status: status) else {
             filteredCharacters = []
             return
         }
@@ -90,5 +90,10 @@ final class CharactersListViewModel {
             // Handle error
             self.isLoading = false
         }
+    }
+    
+    func shouldPerformQuery(_ query: String?, status: CharacterStatus?) -> Bool {
+        guard let query else { return status != nil }
+        return !(query.isEmpty && status == nil)
     }
 }
