@@ -21,3 +21,20 @@ struct Character: Decodable {
     var url: String
     var created: String
 }
+
+extension Character: Hashable {
+    static func == (lhs: Character, rhs: Character) -> Bool {
+        return lhs.id == rhs.id &&
+        lhs.name == rhs.name &&
+        lhs.status == rhs.status &&
+        lhs.species == rhs.species &&
+        lhs.type == rhs.type &&
+        lhs.gender == rhs.gender &&
+        lhs.origin == rhs.origin &&
+        lhs.location == rhs.location &&
+        lhs.image == rhs.image &&
+        lhs.episode == rhs.episode &&
+        lhs.url == rhs.url &&
+        lhs.created == rhs.created
+    }
+}

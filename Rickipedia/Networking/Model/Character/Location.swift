@@ -11,3 +11,7 @@ struct Location: Decodable {
     var name: String
     var url: String
 }
+
+extension Location: Hashable {
+    
+}

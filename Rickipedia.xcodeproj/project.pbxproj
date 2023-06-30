@@ -43,6 +43,7 @@
 		7CE23FE92A4C95B700E4D41B /* CharactersListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */; };
 		7CE23FEB2A4C965C00E4D41B /* CharactersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */; };
 		7CE23FED2A4C9AA600E4D41B /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FEC2A4C9AA600E4D41B /* CharacterCell.swift */; };
+		7CE90B8B2A4EA720009153F1 /* RKPDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE90B8A2A4EA720009153F1 /* RKPDesign */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListCoordinator.swift; sourceTree = "<group>"; };
 		7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListViewController.swift; sourceTree = "<group>"; };
 		7CE23FEC2A4C9AA600E4D41B /* CharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
+		7CE90B8C2A4F198C009153F1 /* RKPDesign */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = RKPDesign; path = ../RKPDesign; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CE90B8B2A4EA720009153F1 /* RKPDesign in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,10 +136,12 @@
 		7C384EF62A49CDB2006A7327 = {
 			isa = PBXGroup;
 			children = (
+				7C55B32B2A4EA62B00A76A86 /* Packages */,
 				7C384F012A49CDB2006A7327 /* Rickipedia */,
 				7C384F182A49CDB4006A7327 /* RickipediaTests */,
 				7C384F222A49CDB4006A7327 /* RickipediaUITests */,
 				7C384F002A49CDB2006A7327 /* Products */,
+				7CE90B892A4EA720009153F1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -228,6 +233,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		7C55B32B2A4EA62B00A76A86 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				7CE90B8C2A4F198C009153F1 /* RKPDesign */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		7CDC7CF02A4A295F00A28C47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +325,13 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		7CE90B892A4EA720009153F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -328,6 +348,9 @@
 			dependencies = (
 			);
 			name = Rickipedia;
+			packageProductDependencies = (
+				7CE90B8A2A4EA720009153F1 /* RKPDesign */,
+			);
 			productName = Rickipedia;
 			productReference = 7C384EFF2A49CDB2006A7327 /* Rickipedia.app */;
 			productType = "com.apple.product-type.application";
@@ -806,6 +829,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7CE90B8A2A4EA720009153F1 /* RKPDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RKPDesign;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7C384EF72A49CDB2006A7327 /* Project object */;
 }
