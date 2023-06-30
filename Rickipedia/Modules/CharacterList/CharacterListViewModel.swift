@@ -23,7 +23,7 @@ final class CharactersListViewModel {
 
     private var hasNextPage: Bool = true
     private var hasNextFilterPage: Bool = true
-    var currentStateFilter: CharacterStatus? = nil
+    var currentStateFilter: CharacterStatus?
 
     @Published private(set) var isLoading = false
 
@@ -136,7 +136,9 @@ extension CharactersListViewModel {
         do {
             self.isSearching = true
             self.isLoading = true
-            let response = try await filterService.search(query, status: serviceStatus(from: status), page: currentFilterPage)
+            let response = try await filterService.search(query,
+                                                          status: serviceStatus(from: status),
+                                                          page: currentFilterPage)
             guard let nextPage = nextPage(response.info) else {
                 self.isLoading = false
                 self.hasNextFilterPage = false

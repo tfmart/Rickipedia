@@ -5,6 +5,8 @@
 //  Created by Tomas Martins on 28/06/23.
 //
 
+// swiftlint:disable line_length
+
 import UIKit
 import Combine
 import RKPDesign
@@ -32,12 +34,15 @@ class CharactersListViewController: UIViewController {
         self.viewModel = viewModel
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.footerMode = .supplementary
-        let layout = UICollectionViewCompositionalLayout.list(using: UICollectionLayoutListConfiguration(appearance: .plain))
+        let layout = UICollectionViewCompositionalLayout.list(using: .init(appearance: .plain))
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil)
 
         let menu = setupFilterButton()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"), menu: menu)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: .init(systemName: "line.3.horizontal.decrease.circle"),
+            menu: menu
+        )
     }
 
     required init?(coder: NSCoder) {
@@ -113,7 +118,7 @@ class CharactersListViewController: UIViewController {
             UIAction(title: "Alive",
                      image: UIImage(systemName: "person.2.fill"),
                      state: viewModel.currentStateFilter == .alive ? .on : .off,
-                     handler: { action in
+                     handler: { _ in
                          self.didApplyStatusFilter(.alive)
                      }),
             UIAction(title: "Dead",
@@ -141,14 +146,18 @@ class CharactersListViewController: UIViewController {
             }
             await self.viewModel.searchCharacters(searchController.searchBar.text, status: statusToApply)
             let menu = self.setupFilterButton()
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"), menu: menu)
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: .init(systemName: "line.3.horizontal.decrease.circle"),
+                menu: menu
+            )
             applySnapshot()
         }
     }
 
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Character>(collectionView: collectionView) { collectionView, indexPath, character in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterCell.reuseIdentifier, for: indexPath) as? RKPCharacterCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterCell.reuseIdentifier,
+                                                                for: indexPath) as? RKPCharacterCell else {
                 fatalError("Failed to dequeue CharacterCell")
             }
 
@@ -178,12 +187,15 @@ extension CharactersListViewController: UISearchResultsUpdating {
 }
 
 extension CharactersListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         let lastItem = viewModel.characters.count - 1
         if indexPath.item == lastItem {
             Task {
                 if viewModel.isSearching {
-                    await viewModel.searchCharacters(searchController.searchBar.text, status: viewModel.currentStateFilter)
+                    await viewModel.searchCharacters(searchController.searchBar.text,
+                                                     status: viewModel.currentStateFilter)
                 } else {
                     await viewModel.fetchCharacters()
                 }
@@ -197,3 +209,4 @@ extension CharactersListViewController: UICollectionViewDelegate {
         delegate?.didSelectCharacter(character)
     }
 }
+// swiftlint:enable line_length

@@ -23,7 +23,8 @@ class CharactersListCoordinator: Coordinator {
     }
 
     func showCharacterDetails(_ character: Character) {
-        let characterDetailCoordinator = CharacterDetailsCoordinator(navigationController: navigationController, character: character)
+        let characterDetailCoordinator = CharacterDetailsCoordinator(navigationController: navigationController,
+                                                                     character: character)
         characterDetailCoordinator.start()
     }
 }

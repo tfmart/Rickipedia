@@ -5,6 +5,8 @@
 //  Created by Tomas Martins on 29/06/23.
 //
 
+// swiftlint:disable line_length
+
 import UIKit
 
 class CharacterDetailsViewController: UIViewController {
@@ -32,7 +34,6 @@ class CharacterDetailsViewController: UIViewController {
         super.viewDidLoad()
 
         setupCollectionView()
-        setupNavigationBar()
         updateCollectionView()
     }
 
@@ -47,45 +48,54 @@ class CharacterDetailsViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        collectionView.register(CharacterDetailCell.self, forCellWithReuseIdentifier: CharacterDetailCell.reuseIdentifier)
-        collectionView.register(CharacterDetailsHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier)
+        collectionView.register(CharacterDetailCell.self,
+                                forCellWithReuseIdentifier: CharacterDetailCell.reuseIdentifier)
+        collectionView.register(CharacterDetailsHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier)
 
         dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier, for: indexPath) as! CharacterDetailCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier,
+                                                                for: indexPath) as? CharacterDetailCell else {
+                fatalError("Failed to dequeue CharacterDetailCell")
+            }
             cell.configure(title: detail.title, value: detail.value)
             cell.backgroundConfiguration = .listGroupedCell()
             return cell
         }
 
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionHeader else {
+            guard kind == UICollectionView.elementKindSectionHeader,
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                             withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier,
+                                                                             for: indexPath) as? CharacterDetailsHeaderView else {
                 return nil
             }
 
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier, for: indexPath) as! CharacterDetailsHeaderView
             headerView.configure(with: self.viewModel.character)
             return headerView
         }
     }
 
-    private func setupNavigationBar() {
-        // Configure navigation bar if needed
-    }
-
     private func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier, for: indexPath) as! CharacterDetailCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterDetailCell.reuseIdentifier,
+                                                                for: indexPath) as? CharacterDetailCell else {
+                fatalError("Failed to dequeue CharacterDetailCell")
+            }
             cell.configure(title: detail.title, value: detail.value)
             cell.backgroundConfiguration = .listGroupedCell()
             return cell
         }
 
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionHeader else {
+            guard kind == UICollectionView.elementKindSectionHeader,
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                 withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier,
+                                                                                 for: indexPath) as? CharacterDetailsHeaderView else {
                 return nil
             }
 
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CharacterDetailsHeaderView.reuseIdentifier, for: indexPath) as! CharacterDetailsHeaderView
             headerView.configure(with: self.viewModel.character)
             return headerView
         }
@@ -100,3 +110,4 @@ class CharacterDetailsViewController: UIViewController {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
+// swiftlint:enable line_length
