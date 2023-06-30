@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import RKPDesign
 
 protocol CharactersListViewControllerDelegate: AnyObject {
@@ -16,7 +17,9 @@ class CharactersListViewController: UIViewController {
     private let collectionView: UICollectionView
     private let viewModel: CharactersListViewModel
     private let searchController = UISearchController(searchResultsController: nil)
-    private let loadingIndicator = RKPLoadingIndicator()
+    
+    private var loadingIndicator: UIView?
+    private var cancellables = Set<AnyCancellable>()
 
     weak var delegate: CharactersListViewControllerDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Character>!
@@ -46,25 +49,41 @@ class CharactersListViewController: UIViewController {
         self.title = "Characters"
         self.view.backgroundColor = .systemBackground
         setupCollectionView()
-        setupLoadingInidcator()
         configureDataSource()
         
+        viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                if isLoading {
+                    self?.showLoadingIndicator()
+                } else {
+                    self?.hideLoadingIndicator()
+                }
+            }
+            .store(in: &cancellables)
+        
         Task {
-            self.loadingIndicator.isHidden = false
             await viewModel.fetchCharacters()
-            self.loadingIndicator.isHidden = true
             applySnapshot()
         }
     }
     
-    private func setupLoadingInidcator() {
-        view.addSubview(loadingIndicator)
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            loadingIndicator.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
-        ])
+    private func showLoadingIndicator() {
+        if loadingIndicator == nil {
+            loadingIndicator = RKPLoadingIndicator()
+            view.addSubview(loadingIndicator!)
+            loadingIndicator!.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                loadingIndicator!.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+                loadingIndicator!.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
+            ])
+        }
+        loadingIndicator?.isHidden = false
+    }
+    
+    private func hideLoadingIndicator() {
+        loadingIndicator?.isHidden = true
     }
     
     private func setupCollectionView() {

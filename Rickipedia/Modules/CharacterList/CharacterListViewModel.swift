@@ -5,6 +5,7 @@
 //  Created by Tomas Martins on 26/06/23.
 //
 
+import Combine
 import Foundation
 import RKPService
 
@@ -16,9 +17,10 @@ final class CharactersListViewModel {
     private var filteredCharacters: [Character] = []
     var currentPage: Int = 1
     
-    var isLoading: Bool = false
     var hasNextPage: Bool = true
     var currentStateFilter: CharacterStatus? = nil
+    
+    @Published private(set) var isLoading = false
     
     private var searchTimer: Timer?
     
