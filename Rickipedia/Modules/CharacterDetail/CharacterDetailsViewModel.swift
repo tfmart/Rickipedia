@@ -17,15 +17,15 @@ class CharacterDetailsViewModel {
     }
     
     private func updateDetails() {
-        details = [
-            CharacterDetail(title: "Status", value: character.status.rawValue),
-            CharacterDetail(title: "Species", value: character.species),
-            CharacterDetail(title: "Type", value: character.type),
-            CharacterDetail(title: "Gender", value: character.gender.rawValue),
-            CharacterDetail(title: "Origin", value: character.origin.name),
-            CharacterDetail(title: "Location", value: character.location.name),
-            CharacterDetail(title: "Episode Count", value: "\(character.episode.count)")
-        ]
+        details.append(CharacterDetail(title: "Status", value: character.stauts.rawValue))
+        details.append(CharacterDetail(title: "Species", value: character.species))
+        if let type = character.type {
+            details.append(CharacterDetail(title: "Type", value: type))
+        }
+        details.append(CharacterDetail(title: "Gender", value: character.gender.rawValue))
+        details.append(CharacterDetail(title: "Origin", value: character.origin))
+        details.append(CharacterDetail(title: "Location", value: character.location))
+        details.append(CharacterDetail(title: "Episode Count", value: "\(character.episodesCount)"))
     }
     
     func getCharacterDetails() -> [CharacterDetail] {

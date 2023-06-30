@@ -101,5 +101,4 @@ class CharacterDetailsViewController: UIViewController {
         snapshot.appendItems(details, toSection: .details)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-
 }

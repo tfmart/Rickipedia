@@ -7,34 +7,28 @@
 
 import Foundation
 
-struct Character: Decodable {
+struct Character: Hashable {
     let id: Int
     let name: String
-    let status: CharacterStatus
+    let stauts: CharacterStatus
+    let type: String?
     let species: String
-    let type: String
     let gender: Gender
-    let origin: Location
-    let location: Location
-    let image: String
-    let episode: [String]
-    var url: String
-    var created: String
-}
-
-extension Character: Hashable {
+    let origin: String
+    let location: String
+    let imageURL: URL?
+    let episodesCount: Int
+    
     static func == (lhs: Character, rhs: Character) -> Bool {
         return lhs.id == rhs.id &&
         lhs.name == rhs.name &&
-        lhs.status == rhs.status &&
-        lhs.species == rhs.species &&
+        lhs.stauts == rhs.stauts &&
         lhs.type == rhs.type &&
+        lhs.species == rhs.species &&
         lhs.gender == rhs.gender &&
         lhs.origin == rhs.origin &&
         lhs.location == rhs.location &&
-        lhs.image == rhs.image &&
-        lhs.episode == rhs.episode &&
-        lhs.url == rhs.url &&
-        lhs.created == rhs.created
+        lhs.imageURL == rhs.imageURL &&
+        lhs.episodesCount == rhs.episodesCount
     }
 }

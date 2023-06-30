@@ -119,7 +119,7 @@ class CharactersListViewController: UIViewController {
                 fatalError("Failed to dequeue CharacterCell")
             }
             
-            cell.configure(with: character.name, imageURL: URL(string: character.image))
+            cell.configure(with: character.name, imageURL: character.imageURL)
             cell.accessories = [.disclosureIndicator()]
             
             return cell
