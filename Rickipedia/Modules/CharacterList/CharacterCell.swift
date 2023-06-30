@@ -25,6 +25,7 @@ class CharacterCell: UICollectionViewListCell {
         imageView.layer.borderColor = UIColor.quaternaryLabel.cgColor
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isAccessibilityElement = false
         return imageView
     }()
 
