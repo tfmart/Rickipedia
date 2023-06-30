@@ -42,7 +42,6 @@
 		7CE23FE72A4C958400E4D41B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE62A4C958400E4D41B /* Coordinator.swift */; };
 		7CE23FE92A4C95B700E4D41B /* CharactersListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */; };
 		7CE23FEB2A4C965C00E4D41B /* CharactersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */; };
-		7CE23FED2A4C9AA600E4D41B /* CharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FEC2A4C9AA600E4D41B /* CharacterCell.swift */; };
 		7CE90B8B2A4EA720009153F1 /* RKPDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE90B8A2A4EA720009153F1 /* RKPDesign */; };
 /* End PBXBuildFile section */
 
@@ -103,7 +102,6 @@
 		7CE23FE62A4C958400E4D41B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListCoordinator.swift; sourceTree = "<group>"; };
 		7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListViewController.swift; sourceTree = "<group>"; };
-		7CE23FEC2A4C9AA600E4D41B /* CharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCell.swift; sourceTree = "<group>"; };
 		7CE90B8C2A4F198C009153F1 /* RKPDesign */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = RKPDesign; path = ../RKPDesign; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -279,7 +277,6 @@
 		7CE23FE12A4C91D900E4D41B /* CharacterList */ = {
 			isa = PBXGroup;
 			children = (
-				7CE23FEC2A4C9AA600E4D41B /* CharacterCell.swift */,
 				7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */,
 				7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */,
 				7C384F512A49ED7D006A7327 /* CharacterListViewModel.swift */,
@@ -486,7 +483,6 @@
 				7C384F432A49DE76006A7327 /* Service.swift in Sources */,
 				7C759D682A4E195300F16419 /* UIImage+UIColor.swift in Sources */,
 				7C384F522A49ED7D006A7327 /* CharacterListViewModel.swift in Sources */,
-				7CE23FED2A4C9AA600E4D41B /* CharacterCell.swift in Sources */,
 				7C384F052A49CDB2006A7327 /* SceneDelegate.swift in Sources */,
 				7C384F452A49E0A8006A7327 /* NetworkingError.swift in Sources */,
 				7CE23FE92A4C95B700E4D41B /* CharactersListCoordinator.swift in Sources */,
