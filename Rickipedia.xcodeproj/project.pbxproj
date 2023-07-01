@@ -33,6 +33,8 @@
 		7CD4DAC92A50D1D8000FB268 /* RKPDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 7CD4DAC82A50D1D8000FB268 /* RKPDesign */; };
 		7CD4DACB2A50D1DB000FB268 /* RKPService in Frameworks */ = {isa = PBXBuildFile; productRef = 7CD4DACA2A50D1DB000FB268 /* RKPService */; };
 		7CD4DACE2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD4DACD2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift */; };
+		7CD4DAD02A50E0B2000FB268 /* CharactersListCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD4DACF2A50E0B2000FB268 /* CharactersListCoordinatorTests.swift */; };
+		7CD4DAD22A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD4DAD12A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift */; };
 		7CDC7CF22A4A298100A28C47 /* allCharactersMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */; };
 		7CDC7CF62A4A2BD700A28C47 /* MockCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF52A4A2BD700A28C47 /* MockCharactersService.swift */; };
 		7CE23FE72A4C958400E4D41B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE62A4C958400E4D41B /* Coordinator.swift */; };
@@ -89,6 +91,8 @@
 		7CCA45DA2A50D02300C450C7 /* MockCharacterErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharacterErrorHandler.swift; sourceTree = "<group>"; };
 		7CD4DACC2A50DB4D000FB268 /* Rickipedia.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rickipedia.xctestplan; sourceTree = "<group>"; };
 		7CD4DACD2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModelTest.swift; sourceTree = "<group>"; };
+		7CD4DACF2A50E0B2000FB268 /* CharactersListCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListCoordinatorTests.swift; sourceTree = "<group>"; };
+		7CD4DAD12A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsCoordinatorTests.swift; sourceTree = "<group>"; };
 		7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = allCharactersMock.json; sourceTree = "<group>"; };
 		7CDC7CF52A4A2BD700A28C47 /* MockCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharactersService.swift; sourceTree = "<group>"; };
 		7CE23FE62A4C958400E4D41B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -228,9 +232,11 @@
 		7CDC7CF32A4A2B8700A28C47 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				7C384F192A49CDB4006A7327 /* CharacterListViewModelTests.swift */,
 				7CDC7CF42A4A2B8E00A28C47 /* Helpers */,
+				7C384F192A49CDB4006A7327 /* CharacterListViewModelTests.swift */,
 				7CD4DACD2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift */,
+				7CD4DACF2A50E0B2000FB268 /* CharactersListCoordinatorTests.swift */,
+				7CD4DAD12A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -485,8 +491,10 @@
 			files = (
 				7C384F1A2A49CDB4006A7327 /* CharacterListViewModelTests.swift in Sources */,
 				7CCA45DB2A50D02300C450C7 /* MockCharacterErrorHandler.swift in Sources */,
+				7CD4DAD22A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift in Sources */,
 				7CD4DACE2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift in Sources */,
 				7CCA45D72A50CF5700C450C7 /* MockFilterService.swift in Sources */,
+				7CD4DAD02A50E0B2000FB268 /* CharactersListCoordinatorTests.swift in Sources */,
 				7CDC7CF62A4A2BD700A28C47 /* MockCharactersService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
