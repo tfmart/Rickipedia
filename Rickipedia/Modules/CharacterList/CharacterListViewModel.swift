@@ -27,12 +27,19 @@ final class CharactersListViewModel {
     var currentStateFilter: CharacterStatus?
     var currentSearchTerm: String?
 
-    @Published private(set) var isLoading = false
+    @Published private(set) var state: CharactersListState = .loaded
 
     private var searchTimer: Timer?
 
     var characters: [Character] {
         return filteredCharacters.isEmpty ? allCharacters : filteredCharacters
+    }
+
+    var isLoading: Bool {
+        switch state {
+        case .loading: return true
+        default: return false
+        }
     }
 
     init(charactersService: CharactersService = DefaultCharactersService(),
@@ -47,29 +54,16 @@ final class CharactersListViewModel {
 // MARK: Fetch all characteres
 
 extension CharactersListViewModel {
-    func fetchCharacters(page: Int, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        Task {
-            do {
-                let response = try await charactersService.fetch(page: page)
-                let charactersToAppend = response.results.map { converter.convert(character: $0) }
-                allCharacters.append(contentsOf: charactersToAppend)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-
     func fetchCharacters() async {
         guard !isLoading, hasNextPage else {
             return
         }
 
-        isLoading = true
+        state = .loaded
 
         do {
             let response = try await charactersService.fetch(page: currentPage)
-            self.isLoading = false
+            state = .loaded
             let charactersToAppend = response.results.map { converter.convert(character: $0) }
             allCharacters.append(contentsOf: charactersToAppend)
             guard let nextPage = charactersService.nextPage else {
@@ -78,8 +72,11 @@ extension CharactersListViewModel {
             }
             self.currentPage = nextPage
         } catch {
-            // Handle error
-            self.isLoading = false
+            if currentFilterPage == 1 {
+                self.state = .empty(error)
+            } else {
+                self.state = .failedToLoadPage
+            }
         }
     }
 
@@ -96,16 +93,23 @@ extension CharactersListViewModel {
 extension CharactersListViewModel {
     func didUpdateSearchBar(_ query: String, _ completion: @escaping () -> Void) {
         guard query != currentSearchTerm else { return }
-        currentSearchTerm = query
         searchTimer?.invalidate()
         self.currentFilterPage = 1
         self.hasNextFilterPage = true
 
         guard !query.isEmpty else {
             self.isSearching = currentStateFilter != nil
+            self.state = .loaded
             currentSearchTerm = nil
-            self.filteredCharacters = []
-            completion()
+            if !isSearching {
+                self.filteredCharacters = []
+                completion()
+            } else {
+                Task {
+                    await self.searchCharacters("", status: currentStateFilter)
+                    completion()
+                }
+            }
             return
         }
 
@@ -120,27 +124,31 @@ extension CharactersListViewModel {
 
     func searchCharacters(_ query: String?, status: CharacterStatus?) async {
         guard !isLoading else { return }
-        if currentStateFilter != status {
+
+        if currentStateFilter == status, currentSearchTerm == query {
+            guard hasNextFilterPage else { return }
+        } else {
             currentStateFilter = status
+            currentSearchTerm = query
             self.currentFilterPage = 1
             self.filteredCharacters = []
-        } else {
-            guard hasNextFilterPage else { return }
+            self.state = .loaded
         }
 
         guard shouldPerformQuery(query, status: status) else {
             filteredCharacters = []
             currentFilterPage = 1
             self.isSearching = false
+            self.state = .loaded
             return
         }
         do {
             self.isSearching = true
-            self.isLoading = true
+            self.state = .loading
             let response = try await filterService.search(query,
                                                           status: status,
                                                           page: currentFilterPage)
-            self.isLoading = false
+            self.state = .loaded
             self.filteredCharacters.append(contentsOf: response.results.map { converter.convert(character: $0) })
             guard let nextPage = filterService.nextPage else {
                 self.hasNextFilterPage = false
@@ -148,8 +156,11 @@ extension CharactersListViewModel {
             }
             self.currentFilterPage = nextPage
         } catch {
-            // Handle error
-            self.isLoading = false
+            if currentFilterPage == 1 {
+                self.state = .empty(error)
+            } else {
+                self.state = .failedToLoadPage
+            }
         }
     }
 

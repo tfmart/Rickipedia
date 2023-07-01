@@ -8,10 +8,10 @@
 import Foundation
 
 enum CharactersListState {
-    case idle
     case loading
     case loaded
-    case error(Error)
+    case empty(Error)
+    case failedToLoadPage
 
     var isLoading: Bool {
         switch self {
