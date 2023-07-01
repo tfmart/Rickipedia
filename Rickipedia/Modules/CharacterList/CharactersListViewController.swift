@@ -117,25 +117,23 @@ class CharactersListViewController: UIViewController {
     }
 
     private func showEmptyState(for error: Error) {
-        if emptyState == nil {
-            emptyState = .init(message: error.localizedDescription)
-            emptyState?.addRetryButton {
-                print("Pressed retry")
-            }
+        emptyState = .init(message: error.localizedDescription, showRetry: false)
+        emptyState?.addRetryButton {
+            print("Pressed retry")
+        }
 
-            if let emptyState {
-                view.addSubview(emptyState)
-                emptyState.isHidden = false
-                emptyState.translatesAutoresizingMaskIntoConstraints = false
+        if let emptyState {
+            view.addSubview(emptyState)
+            emptyState.isHidden = false
+            emptyState.translatesAutoresizingMaskIntoConstraints = false
 
-                NSLayoutConstraint.activate([
-                    emptyState.topAnchor.constraint(equalTo: collectionView.topAnchor),
-                    emptyState.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
-                    emptyState.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
-                    emptyState.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
-                ])
-                emptyState.isHidden = false
-            }
+            NSLayoutConstraint.activate([
+                emptyState.topAnchor.constraint(equalTo: collectionView.topAnchor),
+                emptyState.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
+                emptyState.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+                emptyState.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
+            ])
+            emptyState.isHidden = false
         }
     }
 
