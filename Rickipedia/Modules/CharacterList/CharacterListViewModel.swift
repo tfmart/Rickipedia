@@ -9,28 +9,15 @@ import Combine
 import Foundation
 
 final class CharactersListViewModel {
+    // Dependencies
     let charactersService: CharactersService
     let filterService: FilterService
     let converter: CharacterConverter
     let errorHandler: CharacterErrorHandler
 
+    // Character lists
     private var allCharacters: [Character] = []
     private var filteredCharacters: [Character] = []
-
-    private var currentPage: Int = 1
-    private var currentFilterPage: Int = 1
-
-    var isSearching: Bool = false
-
-    private var hasNextPage: Bool = true
-    private var hasNextFilterPage: Bool = true
-
-    var currentStateFilter: CharacterStatus?
-    var currentSearchTerm: String?
-
-    @Published private(set) var state: CharactersListState = .loaded
-
-    private var searchTimer: Timer?
 
     var characters: [Character] {
         if filteredCharacters.isEmpty {
@@ -39,6 +26,21 @@ final class CharactersListViewModel {
             return filteredCharacters
         }
     }
+
+    // Pages
+    private var currentPage: Int = 1
+    private var hasNextPage: Bool = true
+    private var currentFilterPage: Int = 1
+    private var hasNextFilterPage: Bool = true
+
+    // Search and filters
+    var currentStateFilter: CharacterStatus?
+    var currentSearchTerm: String?
+    private var searchTimer: Timer?
+    var isSearching: Bool = false
+
+    // State
+    @Published private(set) var state: CharactersListState = .loaded
 
     var isLoading: Bool {
         switch state {
@@ -71,26 +73,20 @@ extension CharactersListViewModel {
         guard !isLoading, hasNextPage else {
             return
         }
-
-        state = .loaded
-
+        state = .loading
         do {
             let response = try await charactersService.fetch(page: currentPage)
-            state = .loaded
             let charactersToAppend = response.results.map { converter.convert(character: $0) }
             allCharacters.append(contentsOf: charactersToAppend)
-            guard let nextPage = charactersService.nextPage else {
-                self.hasNextPage = false
-                return
-            }
-            self.currentPage = nextPage
-        } catch {
-            if currentFilterPage == 1 {
-                self.state = .empty(error)
+            if let nextPage = charactersService.nextPage(response: response) {
+                currentPage = nextPage
             } else {
-                self.state = .failedToLoadPage
+                hasNextPage = false
             }
+        } catch {
+            handleError(error)
         }
+        state = .loaded
     }
 
     func character(for id: Int) -> Character? {
@@ -156,7 +152,7 @@ extension CharactersListViewModel {
             self.state = .loaded
         }
 
-        guard shouldPerformQuery(query, status: status) else {
+        guard shouldPerformSearch(query, status: status) else {
             filteredCharacters = []
             currentFilterPage = 1
             self.isSearching = false
@@ -171,7 +167,7 @@ extension CharactersListViewModel {
                                                           page: currentFilterPage)
             self.state = .loaded
             self.filteredCharacters.append(contentsOf: response.results.map { converter.convert(character: $0) })
-            guard let nextPage = filterService.nextPage else {
+            guard let nextPage = filterService.nextPage(response: response) else {
                 self.hasNextFilterPage = false
                 return
             }
@@ -185,7 +181,7 @@ extension CharactersListViewModel {
         }
     }
 
-    func shouldPerformQuery(_ query: String?, status: CharacterStatus?) -> Bool {
+    func shouldPerformSearch(_ query: String?, status: CharacterStatus?) -> Bool {
         guard let query else { return status != nil }
         return !(query.isEmpty && status == nil)
     }
@@ -193,6 +189,14 @@ extension CharactersListViewModel {
 
 // MARK: - Error Handling
 extension CharactersListViewModel {
+    private func handleError(_ error: Error) {
+        if currentFilterPage == 1 {
+            state = .empty(error)
+        } else {
+            state = .failedToLoadPage
+        }
+    }
+    
     func errorMessage(for error: Error) -> String {
         return errorHandler.message(for: error)
     }

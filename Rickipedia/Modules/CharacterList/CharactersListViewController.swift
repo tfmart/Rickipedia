@@ -71,14 +71,10 @@ class CharactersListViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
                 switch state {
-                case .loaded:
-                    self?.showLoadedState()
-                case .loading:
-                    self?.showLoadingState()
-                case .empty(let error):
-                    self?.showEmptyState(error)
-                case .failedToLoadPage:
-                    self?.showRetryState()
+                case .loaded: self?.showLoadedState()
+                case .loading: self?.showLoadingState()
+                case .empty(let error): self?.showEmptyState(error)
+                case .failedToLoadPage: self?.showRetryState()
                 }
             }
             .store(in: &cancellables)
@@ -241,7 +237,7 @@ extension CharactersListViewController {
         navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
-    
+
     func didApplyStatusFilter(_ status: CharacterStatus) {
         Task {
             var statusToApply: CharacterStatus? = status
@@ -257,7 +253,7 @@ extension CharactersListViewController {
             applySnapshot()
         }
     }
-    
+
     private func setupFilterButton() -> UIMenu {
         let menuItems: [UIAction] = [
             UIAction(title: "Alive",

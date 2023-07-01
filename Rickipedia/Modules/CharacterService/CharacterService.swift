@@ -10,26 +10,20 @@ import RKPService
 
 protocol CharactersService {
     func fetch(page: Int) async throws -> RKPQueryResponse
-    var nextPage: Int? { get }
+    func nextPage(response: RKPQueryResponse) -> Int?
 }
 
 class DefaultCharactersService: CharactersService {
-    var currentResponse: RKPQueryResponse?
-
     func fetch(page: Int) async throws -> RKPQueryResponse {
         let service = RKPAllCharactersService()
         let response = try await service.fetch(page: page)
-        self.currentResponse = response
         return response
     }
 
-    var nextPage: Int? {
-        guard let currentResponse,
-              let next = currentResponse.info.next,
+    func nextPage(response: RKPQueryResponse) -> Int? {
+        guard let next = response.info.next,
               let nextURL = URLComponents(string: next),
-              let pageQuery =  nextURL.queryItems?.first(where: {
-                  $0.name == "page"
-              }),
+              let pageQuery = nextURL.queryItems?.first(where: { $0.name == "page" }),
               let pageValue = pageQuery.value else { return nil }
         return Int(pageValue)
     }
