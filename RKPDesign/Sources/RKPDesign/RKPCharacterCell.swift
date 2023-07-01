@@ -41,7 +41,7 @@ public class RKPCharacterCell: UICollectionViewListCell {
         contentView.addSubview(characterImageView)
         contentView.addSubview(nameLabel)
         
-        let heightAnchor = characterImageView.heightAnchor.constraint(equalToConstant: 60)
+        let heightAnchor = characterImageView.heightAnchor.constraint(equalTo: characterImageView.widthAnchor)
         let bottomImageConstraint = characterImageView.bottomAnchor.constraint(equalTo: separatorLayoutGuide.bottomAnchor, constant: 16)
         heightAnchor.priority = .defaultHigh
         bottomImageConstraint.priority = .defaultHigh

@@ -1,23 +1,18 @@
 //
-//  RKPCharacterCellTests.swift
+//  RKPCharacterDetailCellTests.swift
 //  
 //
-//  Created by Tomas Martins on 30/06/23.
+//  Created by Tomas Martins on 01/07/23.
 //
 
 import XCTest
 import SnapshotTesting
 @testable import RKPDesign
 
-final class RKPCharacterCellTests: XCTestCase {
-    func testCell() {
-        let mock = RKPCharacterCell(frame: CGRect(x: 0, y: 0, width: 320, height: 80))
-        guard let pathString = Bundle.module.path(forResource: "avatar", ofType: "png") else {
-            XCTFail("Could not find avatar image")
-            return
-        }
-        
-        mock.configure(with: "Rick & Morty", imageURL: URL(string: pathString))
+final class RKPCharacterDetailCellTests: XCTestCase {
+    func testDetailCell() {
+        let mock = RKPCharacterDetailCell(frame: CGRect(x: 0, y: 0, width: 320, height: 80))
+        mock.configure(title: "Location", value: "Earth")
         
         let viewController = SnapshotViewController(contentView: mock)
         let lightMode = UITraitCollection(userInterfaceStyle: .light)

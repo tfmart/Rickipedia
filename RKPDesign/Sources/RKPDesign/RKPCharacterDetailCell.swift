@@ -29,10 +29,10 @@ public class RKPCharacterDetailCell: UICollectionViewCell {
 
     private func setupViews() {
         titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        titleLabel.textColor = .darkGray
+        titleLabel.textColor = .secondaryLabel
 
         valueLabel.font = UIFont.systemFont(ofSize: 16)
-        valueLabel.textColor = .black
+        valueLabel.textColor = .label
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(valueLabel)
@@ -59,4 +59,3 @@ public class RKPCharacterDetailCell: UICollectionViewCell {
         valueLabel.text = value
     }
 }
-
