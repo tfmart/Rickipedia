@@ -11,8 +11,10 @@ import UIKit
 
 public class RKPDetailHeaderView: UICollectionReusableView {
     public static let reuseIdentifier = "RKPDetailHeaderView"
+    
+    private var imageLoadTask: Task<Void, Error>?
 
-    private let imageView: UIImageView = {
+    private let characterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -36,36 +38,72 @@ public class RKPDetailHeaderView: UICollectionReusableView {
     }
 
     private func setupViews() {
-        addSubview(imageView)
+        addSubview(characterImageView)
         addSubview(nameLabel)
 
         // Configure layout constraints
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        characterImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 120),
-            imageView.heightAnchor.constraint(equalToConstant: 120),
+            characterImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            characterImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            characterImageView.widthAnchor.constraint(equalToConstant: 120),
+            characterImageView.heightAnchor.constraint(equalToConstant: 120),
 
-            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
+            nameLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             nameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
 
-    public func configure(with name: String, image: URL?) {
+    public func configure(with name: String, imageURL: URL?) {
         nameLabel.text = name
-        if let imageURL = image {
-            let request = URLRequest(url: imageURL, cachePolicy: .returnCacheDataElseLoad)
-            Task {
-                if let (data, _) = try? await URLSession.shared.data(for: request),
-                   let image = UIImage(data: data) {
-                    self.imageView.image = image
+        if let imageURL = imageURL {
+            loadImage(from: imageURL)
+        }
+    }
+    
+    private func loadImage(from url: URL) {
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
+        
+        if let cachedResponse = URLCache.shared.cachedResponse(for: request),
+           let image = UIImage(data: cachedResponse.data) {
+            characterImageView.image = image
+        } else {
+            characterImageView.image = nil
+            startImageLoad(with: request)
+        }
+    }
+    
+    private func startImageLoad(with request: URLRequest) {
+        cancelImageLoad()
+        
+        let task = Task<Void, Error> {
+            do {
+                let (data, response) = try await URLSession.shared.data(for: request)
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    let cachedResponse = CachedURLResponse(response: httpResponse, data: data)
+                    URLCache.shared.storeCachedResponse(cachedResponse, for: request)
+                    if let image = UIImage(data: data) {
+                        self.characterImageView.image = image
+                    } else {
+                        self.characterImageView.image = UIImage(named: "avatar")
+                    }
+                } else {
+                    self.characterImageView.image = UIImage(named: "avatar")
                 }
+            } catch {
+                self.characterImageView.image = UIImage(named: "avatar")
             }
         }
+        
+        imageLoadTask = task
+    }
+    
+    private func cancelImageLoad() {
+        imageLoadTask?.cancel()
+        imageLoadTask = nil
     }
 }

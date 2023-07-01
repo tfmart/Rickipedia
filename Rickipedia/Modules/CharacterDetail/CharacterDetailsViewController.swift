@@ -82,7 +82,7 @@ class CharacterDetailsViewController: UIViewController {
                 return nil
             }
 
-            headerView.configure(with: self.viewModel.character.name, image: self.viewModel.character.imageURL)
+            headerView.configure(with: self.viewModel.character.name, imageURL: self.viewModel.character.imageURL)
             return headerView
         }
     }
