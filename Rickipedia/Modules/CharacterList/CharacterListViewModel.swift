@@ -12,12 +12,12 @@ final class CharactersListViewModel {
     // Dependencies
     let charactersService: CharactersService
     let filterService: FilterService
-    let converter: CharacterConverter
+    let converter: CharacterConverter = .init()
     let errorHandler: CharacterErrorHandler
 
     // Character lists
-    private var allCharacters: [Character] = []
-    private var filteredCharacters: [Character] = []
+    var allCharacters: [Character] = []
+    var filteredCharacters: [Character] = []
 
     var characters: [Character] {
         if filteredCharacters.isEmpty {
@@ -28,10 +28,10 @@ final class CharactersListViewModel {
     }
 
     // Pages
-    private var currentPage: Int = 1
-    private var hasNextPage: Bool = true
-    private var currentFilterPage: Int = 1
-    private var hasNextFilterPage: Bool = true
+    var currentPage: Int = 1
+    var hasNextPage: Bool = true
+    var currentFilterPage: Int = 1
+    var hasNextFilterPage: Bool = true
 
     // Search and filters
     var currentStateFilter: CharacterStatus?
@@ -58,11 +58,9 @@ final class CharactersListViewModel {
 
     init(charactersService: CharactersService = DefaultCharactersService(),
          filterService: FilterService = DefaultFilterService(),
-         characterConverter: CharacterConverter = DefaultCharacterConverter(),
          errorHandler: CharacterErrorHandler = DefaultCharacterErrorHandler()) {
         self.charactersService = charactersService
         self.filterService = filterService
-        self.converter = characterConverter
         self.errorHandler = errorHandler
     }
 }
@@ -189,14 +187,14 @@ extension CharactersListViewModel {
 
 // MARK: - Error Handling
 extension CharactersListViewModel {
-    private func handleError(_ error: Error) {
+    func handleError(_ error: Error) {
         if currentFilterPage == 1 {
             state = .empty(error)
         } else {
             state = .failedToLoadPage
         }
     }
-    
+
     func errorMessage(for error: Error) -> String {
         return errorHandler.message(for: error)
     }

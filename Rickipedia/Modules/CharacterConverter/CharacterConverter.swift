@@ -8,11 +8,7 @@
 import Foundation
 import RKPService
 
-protocol CharacterConverter {
-    func convert(character: RKPCharacter) -> Character
-}
-
-struct DefaultCharacterConverter: CharacterConverter {
+struct CharacterConverter {
     func convert(character: RKPCharacter) -> Character {
         Character(id: character.id,
                   name: character.name,

@@ -1,0 +1,46 @@
+{
+  "configurations" : [
+    {
+      "id" : "1FB1284B-E7DD-4575-8470-6AA607FA5F31",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:Rickipedia.xcodeproj",
+          "identifier" : "7C384EFE2A49CDB2006A7327",
+          "name" : "Rickipedia"
+        }
+      ]
+    },
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Rickipedia.xcodeproj",
+      "identifier" : "7C384EFE2A49CDB2006A7327",
+      "name" : "Rickipedia"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Rickipedia.xcodeproj",
+        "identifier" : "7C384F142A49CDB4006A7327",
+        "name" : "RickipediaTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Rickipedia.xcodeproj",
+        "identifier" : "7C384F1E2A49CDB4006A7327",
+        "name" : "RickipediaUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
