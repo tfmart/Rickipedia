@@ -29,6 +29,6 @@ class DefaultCharacterErrorHandler: CharacterErrorHandler {
     }
 
     func shouldShowRetry(for error: Error) -> Bool {
-        false
+        true
     }
 }

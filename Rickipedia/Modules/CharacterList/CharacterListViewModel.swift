@@ -33,12 +33,23 @@ final class CharactersListViewModel {
     private var searchTimer: Timer?
 
     var characters: [Character] {
-        return filteredCharacters.isEmpty ? allCharacters : filteredCharacters
+        if filteredCharacters.isEmpty {
+            return isSearching ? [] : allCharacters
+        } else {
+            return filteredCharacters
+        }
     }
 
     var isLoading: Bool {
         switch state {
         case .loading: return true
+        default: return false
+        }
+    }
+
+    var isShowingFooter: Bool {
+        switch state {
+        case .failedToLoadPage: return true
         default: return false
         }
     }
@@ -55,7 +66,6 @@ final class CharactersListViewModel {
 }
 
 // MARK: Fetch all characteres
-
 extension CharactersListViewModel {
     func fetchCharacters() async {
         guard !isLoading, hasNextPage else {
@@ -88,6 +98,14 @@ extension CharactersListViewModel {
             return filteredCharacters.first(where: { $0.id == id })
         } else {
             return allCharacters.first(where: { $0.id == id })
+        }
+    }
+
+    func retry() async {
+        if isSearching {
+            await searchCharacters(currentSearchTerm, status: currentStateFilter)
+        } else {
+            await fetchCharacters()
         }
     }
 }

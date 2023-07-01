@@ -38,7 +38,7 @@ class CharactersListViewController: UIViewController {
     }()
 
     private var emptyState: RKPEmptyState?
-
+    private var isRetrySectionVisible = false
     private var cancellables = Set<AnyCancellable>()
 
     weak var delegate: CharactersListViewControllerDelegate?
@@ -46,12 +46,11 @@ class CharactersListViewController: UIViewController {
 
     enum Section {
         case main
+        case retry
     }
 
     init(viewModel: CharactersListViewModel) {
         self.viewModel = viewModel
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        configuration.footerMode = .supplementary
         let layout = UICollectionViewCompositionalLayout.list(using: .init(appearance: .plain))
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil)
@@ -81,12 +80,15 @@ class CharactersListViewController: UIViewController {
                 case .loaded:
                     self?.hideLoadingIndicator()
                     self?.hideEmptyStaete()
+                    self?.toggleRetrySectionVisibility(false)
                 case .loading:
                     self?.showLoadingIndicator()
                     self?.hideEmptyStaete()
+                    self?.toggleRetrySectionVisibility(false)
                 case .empty(let error):
                     self?.showEmptyState(for: error)
-                case .failedToLoadPage: print("idle")
+                case .failedToLoadPage:
+                    self?.toggleRetrySectionVisibility(true)
                 }
             }
             .store(in: &cancellables)
@@ -120,7 +122,9 @@ class CharactersListViewController: UIViewController {
         emptyState = .init(message: viewModel.errorMessage(for: error),
                            showRetry: viewModel.shouldShowRetryButton(for: error))
         emptyState?.addRetryButton {
-            print("Pressed retry")
+            Task {
+                await self.viewModel.retry()
+            }
         }
 
         if let emptyState {
@@ -145,6 +149,7 @@ class CharactersListViewController: UIViewController {
     private func setupCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(RKPCharacterCell.self, forCellWithReuseIdentifier: RKPCharacterCell.reuseIdentifier)
+        collectionView.register(RKPRetryFooter.self, forCellWithReuseIdentifier: RKPRetryFooter.reuseIdentifier)
         collectionView.delegate = self
 
         searchController.searchResultsUpdater = self
@@ -206,19 +211,24 @@ class CharactersListViewController: UIViewController {
     }
 
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Character.ID>(collectionView: collectionView) { collectionView, indexPath, characterID in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterCell.reuseIdentifier,
-                                                                for: indexPath) as? RKPCharacterCell else {
-                fatalError("Failed to dequeue CharacterCell")
+        dataSource = UICollectionViewDiffableDataSource<Section, Character.ID>(collectionView: collectionView) { collectionView, indexPath, itemID in
+            if let character = self.viewModel.character(for: itemID) {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterCell.reuseIdentifier, for: indexPath) as? RKPCharacterCell
+                guard let cell else { return nil }
+                cell.configure(with: character.name, imageURL: character.imageURL)
+                cell.accessories = [.disclosureIndicator()]
+                return cell
+            } else if indexPath.section == 1 {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPRetryFooter.reuseIdentifier, for: indexPath) as? RKPRetryFooter
+                guard let cell else { return nil }
+                cell.configure(message: "Failed to load next page", action: {
+                    Task {
+                        await self.viewModel.retry()
+                    }
+                })
+                return cell
             }
-            guard let character = self.viewModel.character(for: characterID) else {
-                fatalError("Could not get character with \(characterID)")
-            }
-
-            cell.configure(with: character.name, imageURL: character.imageURL)
-            cell.accessories = [.disclosureIndicator()]
-
-            return cell
+            fatalError("Unknown cell type")
         }
     }
 
@@ -227,7 +237,20 @@ class CharactersListViewController: UIViewController {
         snapshot.appendSections([.main])
         let characterIDs = viewModel.characters.map { $0.id }
         snapshot.appendItems(characterIDs, toSection: .main)
+
+        if isRetrySectionVisible {
+            snapshot.appendSections([.retry])
+            snapshot.appendItems([-99], toSection: .retry)
+        } else {
+            snapshot.deleteSections([.retry])
+        }
+
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+
+    func toggleRetrySectionVisibility(_ show: Bool) {
+        isRetrySectionVisible = show
+        applySnapshot()
     }
 }
 
@@ -246,6 +269,7 @@ extension CharactersListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
+        guard !viewModel.isShowingFooter else { return }
         let lastItem = viewModel.characters.count - 1
         if indexPath.item == lastItem {
             Task {

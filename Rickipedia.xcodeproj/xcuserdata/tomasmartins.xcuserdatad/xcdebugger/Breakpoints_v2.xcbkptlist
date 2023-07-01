@@ -3,4 +3,54 @@
    uuid = "193C9FEE-E4CF-4EBD-A233-C35DEE2ACF34"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "158DE5A4-599F-4FCF-BC28-9D5488174AA2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Rickipedia/Modules/CharacterList/CharacterListViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "character(for:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "158DE5A4-599F-4FCF-BC28-9D5488174AA2 - d508bae4f9bcef9c"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Rickipedia.CharactersListViewModel.character(for: Swift.Int) -&gt; Swift.Optional&lt;Rickipedia.Character&gt;"
+                  moduleName = "Rickipedia"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tomasmartins/Documents/Xcode%20Projects/Rickipedia/Rickipedia/Modules/CharacterList/CharacterListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "158DE5A4-599F-4FCF-BC28-9D5488174AA2 - 8201147a427c08db"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Rickipedia.Character) -&gt; Swift.Bool in Rickipedia.CharactersListViewModel.character(for: Swift.Int) -&gt; Swift.Optional&lt;Rickipedia.Character&gt;"
+                  moduleName = "Rickipedia"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tomasmartins/Documents/Xcode%20Projects/Rickipedia/Rickipedia/Modules/CharacterList/CharacterListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
