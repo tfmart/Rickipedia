@@ -68,6 +68,8 @@ class CharactersListViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Characters"
         self.view.backgroundColor = .systemBackground
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+
         setupCollectionView()
         configureDataSource()
 
