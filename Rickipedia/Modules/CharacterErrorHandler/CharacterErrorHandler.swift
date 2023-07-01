@@ -29,6 +29,14 @@ class DefaultCharacterErrorHandler: CharacterErrorHandler {
     }
 
     func shouldShowRetry(for error: Error) -> Bool {
-        true
+        guard let networkError = (error as? RKPNetworkingError) else {
+            return true
+        }
+        switch networkError {
+        case .badURL:
+            return true
+        case .serviceError(let message):
+            return message.lowercased() != "there is nothing here"
+        }
     }
 }
