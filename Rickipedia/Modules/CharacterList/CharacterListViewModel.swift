@@ -12,6 +12,7 @@ final class CharactersListViewModel {
     let charactersService: CharactersService
     let filterService: FilterService
     let converter: CharacterConverter
+    let errorHandler: CharacterErrorHandler
 
     private var allCharacters: [Character] = []
     private var filteredCharacters: [Character] = []
@@ -44,10 +45,12 @@ final class CharactersListViewModel {
 
     init(charactersService: CharactersService = DefaultCharactersService(),
          filterService: FilterService = DefaultFilterService(),
-         characterConverter: CharacterConverter = DefaultCharacterConverter()) {
+         characterConverter: CharacterConverter = DefaultCharacterConverter(),
+         errorHandler: CharacterErrorHandler = DefaultCharacterErrorHandler()) {
         self.charactersService = charactersService
         self.filterService = filterService
         self.converter = characterConverter
+        self.errorHandler = errorHandler
     }
 }
 
@@ -167,5 +170,16 @@ extension CharactersListViewModel {
     func shouldPerformQuery(_ query: String?, status: CharacterStatus?) -> Bool {
         guard let query else { return status != nil }
         return !(query.isEmpty && status == nil)
+    }
+}
+
+// MARK: - Error Handling
+extension CharactersListViewModel {
+    func errorMessage(for error: Error) -> String {
+        return errorHandler.message(for: error)
+    }
+
+    func shouldShowRetryButton(for error: Error) -> Bool {
+        return errorHandler.shouldShowRetry(for: error)
     }
 }

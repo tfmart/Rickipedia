@@ -28,6 +28,7 @@
 		7C759D702A4E612A00F16419 /* CharacterDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D6F2A4E612A00F16419 /* CharacterDetail.swift */; };
 		7C759D722A4E614C00F16419 /* CharacterDetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D712A4E614C00F16419 /* CharacterDetailSection.swift */; };
 		7C759D762A4E64B500F16419 /* CharacterDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C759D752A4E64B500F16419 /* CharacterDetailsViewModelTests.swift */; };
+		7CCA45D52A5083B900C450C7 /* CharacterErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCA45D42A5083B900C450C7 /* CharacterErrorHandler.swift */; };
 		7CDC7CF22A4A298100A28C47 /* allCharactersMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */; };
 		7CDC7CF62A4A2BD700A28C47 /* MockAllCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF52A4A2BD700A28C47 /* MockAllCharactersService.swift */; };
 		7CE23FE72A4C958400E4D41B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE62A4C958400E4D41B /* Coordinator.swift */; };
@@ -80,6 +81,7 @@
 		7C759D6F2A4E612A00F16419 /* CharacterDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetail.swift; sourceTree = "<group>"; };
 		7C759D712A4E614C00F16419 /* CharacterDetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailSection.swift; sourceTree = "<group>"; };
 		7C759D752A4E64B500F16419 /* CharacterDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModelTests.swift; sourceTree = "<group>"; };
+		7CCA45D42A5083B900C450C7 /* CharacterErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterErrorHandler.swift; sourceTree = "<group>"; };
 		7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = allCharactersMock.json; sourceTree = "<group>"; };
 		7CDC7CF52A4A2BD700A28C47 /* MockAllCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAllCharactersService.swift; sourceTree = "<group>"; };
 		7CE23FE62A4C958400E4D41B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -197,6 +199,14 @@
 			path = CharacterService;
 			sourceTree = "<group>";
 		};
+		7CCA45D32A5083A700C450C7 /* CharacterErrorHandler */ = {
+			isa = PBXGroup;
+			children = (
+				7CCA45D42A5083B900C450C7 /* CharacterErrorHandler.swift */,
+			);
+			path = CharacterErrorHandler;
+			sourceTree = "<group>";
+		};
 		7CDC7CF02A4A295F00A28C47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +236,7 @@
 		7CE23FE02A4C91D200E4D41B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				7CCA45D32A5083A700C450C7 /* CharacterErrorHandler */,
 				7C5BA4702A4F65E3003C0975 /* CharacterService */,
 				7C5BA46D2A4F6587003C0975 /* CharacterConverter */,
 				7CE23FE12A4C91D900E4D41B /* CharacterList */,
@@ -448,6 +459,7 @@
 				7C5BA4722A4F65F8003C0975 /* CharacterService.swift in Sources */,
 				7C5BA46F2A4F6598003C0975 /* CharacterConverter.swift in Sources */,
 				7C5BA46A2A4F6510003C0975 /* CharacterStatus.swift in Sources */,
+				7CCA45D52A5083B900C450C7 /* CharacterErrorHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

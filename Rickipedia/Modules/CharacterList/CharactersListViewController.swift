@@ -117,7 +117,8 @@ class CharactersListViewController: UIViewController {
     }
 
     private func showEmptyState(for error: Error) {
-        emptyState = .init(message: error.localizedDescription, showRetry: false)
+        emptyState = .init(message: viewModel.errorMessage(for: error),
+                           showRetry: viewModel.shouldShowRetryButton(for: error))
         emptyState?.addRetryButton {
             print("Pressed retry")
         }
