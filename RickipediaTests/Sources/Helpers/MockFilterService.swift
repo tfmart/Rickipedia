@@ -12,7 +12,7 @@ import RKPService
 class MockFilterService: FilterService {
     var searchCalled = false
     var nextPageValue: Int?
-    
+
     func search(_ query: String?, status: CharacterStatus?, page: Int) async throws -> RKPQueryResponse {
         guard let pathString = Bundle(for: type(of: self)).path(forResource: "allCharactersMock", ofType: "json") else {
             fatalError("Could not find mock JSON file")

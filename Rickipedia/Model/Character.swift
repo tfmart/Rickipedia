@@ -18,7 +18,7 @@ struct Character: Identifiable, Equatable {
     let location: String
     let imageURL: URL?
     let episodesCount: Int
-    
+
     static func == (lhs: Character, rhs: Character) -> Bool {
         return lhs.id == rhs.id &&
         lhs.name == rhs.name &&

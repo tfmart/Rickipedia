@@ -35,4 +35,3 @@ enum CharactersListState: Equatable {
         }
     }
 }
-
