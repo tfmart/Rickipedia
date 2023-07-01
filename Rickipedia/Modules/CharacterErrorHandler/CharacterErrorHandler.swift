@@ -16,9 +16,7 @@ protocol CharacterErrorHandler {
 class DefaultCharacterErrorHandler: CharacterErrorHandler {
     func message(for error: Error) -> String {
         let unknownErrorMessage = "An unknown error occurred. Please try again later"
-        
-        if let error = (error as? RKPNetworkingError)
-        {
+        if let error = (error as? RKPNetworkingError) {
             switch error {
             case .serviceError(let message):
                 return message
@@ -29,7 +27,7 @@ class DefaultCharacterErrorHandler: CharacterErrorHandler {
             return unknownErrorMessage
         }
     }
-    
+
     func shouldShowRetry(for error: Error) -> Bool {
         false
     }
