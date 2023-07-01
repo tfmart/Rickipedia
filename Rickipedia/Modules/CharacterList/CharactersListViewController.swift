@@ -145,6 +145,7 @@ class CharactersListViewController: UIViewController {
     }
 
     private func setupCollectionView() {
+        collectionView.keyboardDismissMode = .onDrag
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(RKPCharacterCell.self, forCellWithReuseIdentifier: RKPCharacterCell.reuseIdentifier)
         collectionView.register(RKPRetryFooter.self, forCellWithReuseIdentifier: RKPRetryFooter.reuseIdentifier)
