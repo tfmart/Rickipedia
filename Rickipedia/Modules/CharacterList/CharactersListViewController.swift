@@ -18,14 +18,13 @@ class CharactersListViewController: UIViewController {
     private let viewModel: CharactersListViewModel
     private let searchController = UISearchController(searchResultsController: nil)
 
-    private let loadingIndicator: UIView = {
+    private lazy var loadingIndicator: UIView = {
         let backgroundView = UIView()
         let loadingIndicator = RKPLoadingIndicator()
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
 
         backgroundView.backgroundColor = .black.withAlphaComponent(0.5)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
 
         backgroundView.addSubview(loadingIndicator)
         NSLayoutConstraint.activate([
@@ -41,11 +40,6 @@ class CharactersListViewController: UIViewController {
 
     weak var delegate: CharactersListViewControllerDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Character.ID>!
-
-    enum Section {
-        case main
-        case retry
-    }
 
     init(viewModel: CharactersListViewModel) {
         self.viewModel = viewModel
@@ -68,27 +62,23 @@ class CharactersListViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Characters"
         self.view.backgroundColor = .systemBackground
-        self.navigationItem.hidesSearchBarWhenScrolling = false
 
         setupCollectionView()
         configureDataSource()
+        setupSearchBar()
 
         viewModel.$state
             .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
                 switch state {
                 case .loaded:
-                    self?.hideLoadingIndicator()
-                    self?.hideEmptyStaete()
-                    self?.toggleRetrySectionVisibility(false)
+                    self?.showLoadedState()
                 case .loading:
-                    self?.showLoadingIndicator()
-                    self?.hideEmptyStaete()
-                    self?.toggleRetrySectionVisibility(false)
+                    self?.showLoadingState()
                 case .empty(let error):
-                    self?.showEmptyState(for: error)
+                    self?.showEmptyState(error)
                 case .failedToLoadPage:
-                    self?.toggleRetrySectionVisibility(true)
+                    self?.showRetryState()
                 }
             }
             .store(in: &cancellables)
@@ -118,47 +108,38 @@ class CharactersListViewController: UIViewController {
         loadingIndicator.isHidden = true
     }
 
-    private func showEmptyState(for error: Error) {
-        emptyState = .init(message: viewModel.errorMessage(for: error),
-                           showRetry: viewModel.shouldShowRetryButton(for: error))
-        emptyState?.addRetryButton {
-            Task {
-                await self.viewModel.retry()
-            }
-        }
-
-        if let emptyState {
-            view.addSubview(emptyState)
-            emptyState.isHidden = false
-            emptyState.translatesAutoresizingMaskIntoConstraints = false
-
-            NSLayoutConstraint.activate([
-                emptyState.topAnchor.constraint(equalTo: collectionView.topAnchor),
-                emptyState.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
-                emptyState.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
-                emptyState.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
-            ])
-            emptyState.isHidden = false
-        }
+    func showLoadedState() {
+        hideLoadingIndicator()
+        hideEmptyStaete()
+        toggleRetrySectionVisibility(false)
     }
 
-    private func hideEmptyStaete() {
-        emptyState?.isHidden = true
+    func showLoadingState() {
+        showLoadingIndicator()
+        hideEmptyStaete()
+        toggleRetrySectionVisibility(false)
     }
 
+    func showEmptyState(_ error: Error) {
+        setupEmptyState(for: error)
+        toggleRetrySectionVisibility(false)
+    }
+
+    func showRetryState() {
+        hideEmptyStaete()
+        hideLoadingIndicator()
+        toggleRetrySectionVisibility(true)
+    }
+}
+
+// MARK: - Collection View Setup
+extension CharactersListViewController {
     private func setupCollectionView() {
         collectionView.keyboardDismissMode = .onDrag
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(RKPCharacterCell.self, forCellWithReuseIdentifier: RKPCharacterCell.reuseIdentifier)
         collectionView.register(RKPRetryFooter.self, forCellWithReuseIdentifier: RKPRetryFooter.reuseIdentifier)
         collectionView.delegate = self
-
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Characters"
-        searchController.hidesNavigationBarDuringPresentation = false
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
 
         view.addSubview(collectionView)
 
@@ -168,47 +149,6 @@ class CharactersListViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-
-    private func setupFilterButton() -> UIMenu {
-        let menuItems: [UIAction] = [
-            UIAction(title: "Alive",
-                     image: UIImage(systemName: "person.2.fill"),
-                     state: viewModel.currentStateFilter == .alive ? .on : .off,
-                     handler: { _ in
-                         self.didApplyStatusFilter(.alive)
-                     }),
-            UIAction(title: "Dead",
-                     image: UIImage(systemName: "person.2.slash"),
-                     state: viewModel.currentStateFilter == .dead ? .on : .off,
-                     handler: { _ in
-                         self.didApplyStatusFilter(.dead)
-                     }),
-            UIAction(title: "Unknown",
-                     image: UIImage(systemName: "questionmark.circle"),
-                     state: viewModel.currentStateFilter == .unknown ? .on : .off,
-                     handler: { _ in
-                         self.didApplyStatusFilter(.unknown)
-                     })
-        ]
-
-        return UIMenu(title: "Status", children: menuItems)
-    }
-
-    func didApplyStatusFilter(_ status: CharacterStatus) {
-        Task {
-            var statusToApply: CharacterStatus? = status
-            if status == viewModel.currentStateFilter {
-                statusToApply = nil
-            }
-            await self.viewModel.searchCharacters(searchController.searchBar.text, status: statusToApply)
-            let menu = self.setupFilterButton()
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-                image: .init(systemName: "line.3.horizontal.decrease.circle"),
-                menu: menu
-            )
-            applySnapshot()
-        }
     }
 
     private func configureDataSource() {
@@ -256,21 +196,12 @@ class CharactersListViewController: UIViewController {
 
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-
-    func toggleRetrySectionVisibility(_ show: Bool) {
-        isRetrySectionVisible = show
-        applySnapshot()
-    }
 }
 
-extension CharactersListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return }
-        viewModel.didUpdateSearchBar(searchText) {
-            DispatchQueue.main.async {
-                self.applySnapshot()
-            }
-        }
+extension CharactersListViewController {
+    enum Section {
+        case main
+        case retry
     }
 }
 
@@ -297,5 +228,105 @@ extension CharactersListViewController: UICollectionViewDelegate {
         guard let characterID = dataSource.itemIdentifier(for: indexPath),
         let character = viewModel.character(for: characterID) else { return }
         delegate?.didSelectCharacter(character)
+    }
+}
+
+// MARK: - Search Bar and Filter Button setup
+extension CharactersListViewController {
+    func setupSearchBar() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Characters"
+        searchController.hidesNavigationBarDuringPresentation = false
+        navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
+    func didApplyStatusFilter(_ status: CharacterStatus) {
+        Task {
+            var statusToApply: CharacterStatus? = status
+            if status == viewModel.currentStateFilter {
+                statusToApply = nil
+            }
+            await self.viewModel.searchCharacters(searchController.searchBar.text, status: statusToApply)
+            let menu = self.setupFilterButton()
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: .init(systemName: "line.3.horizontal.decrease.circle"),
+                menu: menu
+            )
+            applySnapshot()
+        }
+    }
+    
+    private func setupFilterButton() -> UIMenu {
+        let menuItems: [UIAction] = [
+            UIAction(title: "Alive",
+                     image: UIImage(systemName: "person.2.fill"),
+                     state: viewModel.currentStateFilter == .alive ? .on : .off,
+                     handler: { _ in
+                         self.didApplyStatusFilter(.alive)
+                     }),
+            UIAction(title: "Dead",
+                     image: UIImage(systemName: "person.2.slash"),
+                     state: viewModel.currentStateFilter == .dead ? .on : .off,
+                     handler: { _ in
+                         self.didApplyStatusFilter(.dead)
+                     }),
+            UIAction(title: "Unknown",
+                     image: UIImage(systemName: "questionmark.circle"),
+                     state: viewModel.currentStateFilter == .unknown ? .on : .off,
+                     handler: { _ in
+                         self.didApplyStatusFilter(.unknown)
+                     })
+        ]
+
+        return UIMenu(title: "Status", children: menuItems)
+    }
+}
+
+extension CharactersListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        viewModel.didUpdateSearchBar(searchText) {
+            DispatchQueue.main.async {
+                self.applySnapshot()
+            }
+        }
+    }
+}
+
+// MARK: - Error views setup
+extension CharactersListViewController {
+    private func setupEmptyState(for error: Error) {
+        emptyState = .init(message: viewModel.errorMessage(for: error),
+                           showRetry: viewModel.shouldShowRetryButton(for: error))
+        emptyState?.addRetryButton {
+            Task {
+                await self.viewModel.retry()
+            }
+        }
+
+        if let emptyState {
+            view.addSubview(emptyState)
+            emptyState.isHidden = false
+            emptyState.translatesAutoresizingMaskIntoConstraints = false
+
+            NSLayoutConstraint.activate([
+                emptyState.topAnchor.constraint(equalTo: collectionView.topAnchor),
+                emptyState.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
+                emptyState.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+                emptyState.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
+            ])
+            emptyState.isHidden = false
+        }
+    }
+
+    private func hideEmptyStaete() {
+        emptyState?.isHidden = true
+    }
+
+    func toggleRetrySectionVisibility(_ show: Bool) {
+        isRetrySectionVisible = show
+        applySnapshot()
     }
 }
