@@ -5,8 +5,6 @@
 //  Created by Tomas Martins on 28/06/23.
 //
 
-// swiftlint:disable line_length
-
 import UIKit
 import Combine
 import RKPDesign
@@ -211,15 +209,23 @@ class CharactersListViewController: UIViewController {
     }
 
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Character.ID>(collectionView: collectionView) { collectionView, indexPath, itemID in
+        dataSource = UICollectionViewDiffableDataSource<Section, Character.ID>(
+            collectionView: collectionView
+        ) { collectionView, indexPath, itemID in
             if let character = self.viewModel.character(for: itemID) {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterCell.reuseIdentifier, for: indexPath) as? RKPCharacterCell
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: RKPCharacterCell.reuseIdentifier,
+                    for: indexPath
+                ) as? RKPCharacterCell
                 guard let cell else { return nil }
                 cell.configure(with: character.name, imageURL: character.imageURL)
                 cell.accessories = [.disclosureIndicator()]
                 return cell
             } else if indexPath.section == 1 {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPRetryFooter.reuseIdentifier, for: indexPath) as? RKPRetryFooter
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: RKPRetryFooter.reuseIdentifier,
+                    for: indexPath
+                ) as? RKPRetryFooter
                 guard let cell else { return nil }
                 cell.configure(message: "Failed to load next page", action: {
                     Task {
@@ -290,4 +296,3 @@ extension CharactersListViewController: UICollectionViewDelegate {
         delegate?.didSelectCharacter(character)
     }
 }
-// swiftlint:enable line_length

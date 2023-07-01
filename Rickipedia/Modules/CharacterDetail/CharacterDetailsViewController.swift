@@ -5,8 +5,6 @@
 //  Created by Tomas Martins on 29/06/23.
 //
 
-// swiftlint:disable line_length
-
 import UIKit
 import RKPDesign
 
@@ -59,9 +57,14 @@ class CharacterDetailsViewController: UIViewController {
     }
 
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(collectionView: collectionView) { collectionView, indexPath, detail in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RKPCharacterDetailCell.reuseIdentifier,
-                                                                for: indexPath) as? RKPCharacterDetailCell else {
+        dataSource = UICollectionViewDiffableDataSource<CharacterDetailSection, CharacterDetail>(
+            collectionView: collectionView
+        ) { collectionView, indexPath, detail in
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RKPCharacterDetailCell.reuseIdentifier,
+
+                for: indexPath
+            ) as? RKPCharacterDetailCell else {
                 fatalError("Failed to dequeue CharacterDetailCell")
             }
             cell.configure(title: detail.title, value: detail.value)
@@ -71,9 +74,11 @@ class CharacterDetailsViewController: UIViewController {
 
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard kind == UICollectionView.elementKindSectionHeader,
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                 withReuseIdentifier: RKPDetailHeaderView.reuseIdentifier,
-                                                                                 for: indexPath) as? RKPDetailHeaderView else {
+                  let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: RKPDetailHeaderView.reuseIdentifier,
+                    for: indexPath
+                  ) as? RKPDetailHeaderView else {
                 return nil
             }
 
@@ -91,4 +96,3 @@ class CharacterDetailsViewController: UIViewController {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
-// swiftlint:enable line_length
