@@ -30,17 +30,17 @@
 		7CCA45D52A5083B900C450C7 /* CharacterErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCA45D42A5083B900C450C7 /* CharacterErrorHandler.swift */; };
 		7CCA45D72A50CF5700C450C7 /* MockFilterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCA45D62A50CF5700C450C7 /* MockFilterService.swift */; };
 		7CCA45DB2A50D02300C450C7 /* MockCharacterErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCA45DA2A50D02300C450C7 /* MockCharacterErrorHandler.swift */; };
-		7CD4DAC92A50D1D8000FB268 /* RKPDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 7CD4DAC82A50D1D8000FB268 /* RKPDesign */; };
 		7CD4DACB2A50D1DB000FB268 /* RKPService in Frameworks */ = {isa = PBXBuildFile; productRef = 7CD4DACA2A50D1DB000FB268 /* RKPService */; };
 		7CD4DACE2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD4DACD2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift */; };
 		7CD4DAD02A50E0B2000FB268 /* CharactersListCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD4DACF2A50E0B2000FB268 /* CharactersListCoordinatorTests.swift */; };
 		7CD4DAD22A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD4DAD12A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift */; };
+		7CD4DAD92A50EB4A000FB268 /* RKPDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 7CD4DAD82A50EB4A000FB268 /* RKPDesign */; };
+		7CD4DADB2A50EB87000FB268 /* RKPDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 7CD4DADA2A50EB87000FB268 /* RKPDesign */; };
 		7CDC7CF22A4A298100A28C47 /* allCharactersMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */; };
 		7CDC7CF62A4A2BD700A28C47 /* MockCharactersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDC7CF52A4A2BD700A28C47 /* MockCharactersService.swift */; };
 		7CE23FE72A4C958400E4D41B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE62A4C958400E4D41B /* Coordinator.swift */; };
 		7CE23FE92A4C95B700E4D41B /* CharactersListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */; };
 		7CE23FEB2A4C965C00E4D41B /* CharactersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */; };
-		7CE90B8B2A4EA720009153F1 /* RKPDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE90B8A2A4EA720009153F1 /* RKPDesign */; };
 		7CE90B902A4F3358009153F1 /* RKPService in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE90B8F2A4F3358009153F1 /* RKPService */; };
 /* End PBXBuildFile section */
 
@@ -93,13 +93,13 @@
 		7CD4DACD2A50DEED000FB268 /* CharacterDetailsViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewModelTest.swift; sourceTree = "<group>"; };
 		7CD4DACF2A50E0B2000FB268 /* CharactersListCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListCoordinatorTests.swift; sourceTree = "<group>"; };
 		7CD4DAD12A50E186000FB268 /* CharacterDetailsCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsCoordinatorTests.swift; sourceTree = "<group>"; };
+		7CD4DAD62A50E90E000FB268 /* RKPService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RKPService; sourceTree = "<group>"; };
+		7CD4DAD72A50EA9A000FB268 /* RKPDesign */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RKPDesign; sourceTree = "<group>"; };
 		7CDC7CF12A4A298100A28C47 /* allCharactersMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = allCharactersMock.json; sourceTree = "<group>"; };
 		7CDC7CF52A4A2BD700A28C47 /* MockCharactersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharactersService.swift; sourceTree = "<group>"; };
 		7CE23FE62A4C958400E4D41B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		7CE23FE82A4C95B700E4D41B /* CharactersListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListCoordinator.swift; sourceTree = "<group>"; };
 		7CE23FEA2A4C965C00E4D41B /* CharactersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListViewController.swift; sourceTree = "<group>"; };
-		7CE90B8C2A4F198C009153F1 /* RKPDesign */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = RKPDesign; path = ../RKPDesign; sourceTree = "<group>"; };
-		7CE90B8E2A4F3351009153F1 /* RKPService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = RKPService; path = ../RKPService; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,8 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD4DAD92A50EB4A000FB268 /* RKPDesign in Frameworks */,
 				7CE90B902A4F3358009153F1 /* RKPService in Frameworks */,
-				7CE90B8B2A4EA720009153F1 /* RKPDesign in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,8 +116,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD4DADB2A50EB87000FB268 /* RKPDesign in Frameworks */,
 				7CD4DACB2A50D1DB000FB268 /* RKPService in Frameworks */,
-				7CD4DAC92A50D1D8000FB268 /* RKPDesign in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,8 +190,8 @@
 		7C55B32B2A4EA62B00A76A86 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				7CE90B8C2A4F198C009153F1 /* RKPDesign */,
-				7CE90B8E2A4F3351009153F1 /* RKPService */,
+				7CD4DAD62A50E90E000FB268 /* RKPService */,
+				7CD4DAD72A50EA9A000FB268 /* RKPDesign */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -321,8 +321,8 @@
 			);
 			name = Rickipedia;
 			packageProductDependencies = (
-				7CE90B8A2A4EA720009153F1 /* RKPDesign */,
 				7CE90B8F2A4F3358009153F1 /* RKPService */,
+				7CD4DAD82A50EB4A000FB268 /* RKPDesign */,
 			);
 			productName = Rickipedia;
 			productReference = 7C384EFF2A49CDB2006A7327 /* Rickipedia.app */;
@@ -343,8 +343,8 @@
 			);
 			name = RickipediaTests;
 			packageProductDependencies = (
-				7CD4DAC82A50D1D8000FB268 /* RKPDesign */,
 				7CD4DACA2A50D1DB000FB268 /* RKPService */,
+				7CD4DADA2A50EB87000FB268 /* RKPDesign */,
 			);
 			productName = RickipediaTests;
 			productReference = 7C384F152A49CDB4006A7327 /* RickipediaTests.xctest */;
@@ -823,15 +823,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7CD4DAC82A50D1D8000FB268 /* RKPDesign */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RKPDesign;
-		};
 		7CD4DACA2A50D1DB000FB268 /* RKPService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RKPService;
 		};
-		7CE90B8A2A4EA720009153F1 /* RKPDesign */ = {
+		7CD4DAD82A50EB4A000FB268 /* RKPDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RKPDesign;
+		};
+		7CD4DADA2A50EB87000FB268 /* RKPDesign */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RKPDesign;
 		};
