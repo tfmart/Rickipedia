@@ -32,38 +32,30 @@ class CharactersListViewModelTests: XCTestCase {
     }
 
     func testFetchCharacters() async {
-        // Call fetchCharacters()
         await viewModel.fetchCharacters()
 
-        // Test the service was called and the state is updated
         XCTAssertTrue(mockCharactersService.fetchCalled)
         XCTAssertEqual(viewModel.state, .loaded)
 
-        // Test the state is updated after the fetch is completed
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.state, .loaded)
         XCTAssertEqual(viewModel.currentPage, 2)
         XCTAssertEqual(viewModel.hasNextPage, true)
 
-        // Clean up
         mockCharactersService.nextPageValue = nil
     }
 
     func testCharacterForId() async throws {
-        // Add a dummy character to the view model
         await viewModel.fetchCharacters()
         let character = try XCTUnwrap(viewModel.characters.first)
-        // Test retrieving the character by ID
         XCTAssertEqual(viewModel.character(for: 1), character)
         XCTAssertNil(viewModel.character(for: 21))
     }
 
     func testRetry() async {
-        // Test retrying when not searching
         await viewModel.retry()
         XCTAssertTrue(mockCharactersService.fetchCalled)
 
-        // Test retrying when searching
         viewModel.isSearching = true
         viewModel.currentStateFilter = .alive
         viewModel.currentSearchTerm = "Test"
@@ -72,7 +64,7 @@ class CharactersListViewModelTests: XCTestCase {
     }
 
     func testDidUpdateSearchBar() {
-        let completionExpectation = expectation(description: "Completion called")
+        let completionExpectation = expectation(description: "Repeated Query")
         completionExpectation.isInverted = true
         viewModel.currentSearchTerm = "Test"
         viewModel.didUpdateSearchBar("Test") {
@@ -81,7 +73,7 @@ class CharactersListViewModelTests: XCTestCase {
         waitForExpectations(timeout: 0.1, handler: nil)
         XCTAssertFalse(mockFilterService.searchCalled)
 
-        let searchExpectation = expectation(description: "Search called")
+        let searchExpectation = expectation(description: "New Query")
         viewModel.currentSearchTerm = "Test"
         viewModel.didUpdateSearchBar("New Query") {
             searchExpectation.fulfill()
@@ -116,19 +108,13 @@ class CharactersListViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.filteredCharacters.isEmpty)
 
         await viewModel.searchCharacters("Test", status: .alive)
-
-        // Test the state is updated after the search is completed
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.state, .loaded)
 
-        // Set a next page value and call searchCharacters() again
         mockFilterService.nextPageValue = 2
         await viewModel.searchCharacters("Test", status: .alive)
-
-        // Test the next page value is updated
         XCTAssertEqual(viewModel.currentFilterPage, 2)
 
-        // Clean up
         mockFilterService.nextPageValue = nil
     }
 
