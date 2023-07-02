@@ -1,0 +1,26 @@
+name: Codecov
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Xcode
+        uses: actions/setup-xcode@v2
+
+      - name: Build and test
+        run: |
+          xcodebuild clean test -workspace Rickipedia.xcworkspace -scheme Rickipedia -destination "platform=iOS Simulator,OS=latest" | xcpretty
+          xcodebuild clean test -workspace Rickipedia.xcworkspace -scheme RKPDesign -destination "platform=iOS Simulator,OS=latest" | xcpretty
+          xcodebuild clean test -workspace Rickipedia.xcworkspace -scheme RKPService -destination "platform=iOS Simulator,OS=latest" | xcpretty
+
+      - name: Upload coverage report
+        run: bash <(curl -s https://codecov.io/bash)
