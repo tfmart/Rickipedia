@@ -15,9 +15,9 @@ jobs:
 
       - name: Build and test
         run: |
-          xcodebuild clean test Rickipedia.xcodeproj -scheme Rickipedia -destination "platform=iOS Simulator,OS=latest" | xcpretty
-          xcodebuild clean test Rickipedia.xcodeproj -scheme RKPDesign -destination "platform=iOS Simulator,OS=latest" | xcpretty
-          xcodebuild clean test Rickipedia.xcodeproj -scheme RKPService -destination "platform=iOS Simulator,OS=latest" | xcpretty
+          xcodebuild clean test -project Rickipedia.xcodeproj -scheme Rickipedia -destination "platform=iOS Simulator,OS=latest" | xcpretty
+          xcodebuild clean test -project Rickipedia.xcodeproj -scheme RKPDesign -destination "platform=iOS Simulator,OS=latest" | xcpretty
+          xcodebuild clean test - project Rickipedia.xcodeproj -scheme RKPService -destination "platform=iOS Simulator,OS=latest" | xcpretty
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3
